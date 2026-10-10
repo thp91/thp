@@ -122,7 +122,7 @@
 }
 
 .about__role {
-  max-width: 44rem;
+  max-width: 64rem;
   color: var(--color-muted-dark);
   font-size: var(--font-size-small);
   line-height: 1.45;

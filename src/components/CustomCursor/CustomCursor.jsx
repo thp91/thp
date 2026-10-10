@@ -11,9 +11,33 @@ const LABELS = { view: 'Voir', drag: 'Glisser' };
  */
 export default function CustomCursor() {
   const enabled = useMediaQuery('(pointer: fine) and (hover: hover) and (prefers-reduced-motion: no-preference)');
+  const layerRef = useRef(null);
   const dotRef = useRef(null);
   const ringRef = useRef(null);
   const [state, setState] = useState(null);
+
+  // Les <dialog> modales passent dans la « top layer », au-dessus de tout z-index.
+  // Le curseur y est placé aussi (popover) et remis au premier plan à chaque ouverture.
+  useEffect(() => {
+    const cursor = layerRef.current;
+    if (!enabled || !cursor?.showPopover) return undefined;
+
+    cursor.showPopover();
+    const raise = () => {
+      cursor.hidePopover();
+      cursor.showPopover();
+    };
+    const observer = new MutationObserver((mutations) => {
+      const opened = mutations.some(({ target }) => target.tagName === 'DIALOG' && target.open);
+      if (opened) raise();
+    });
+    observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
+
+    return () => {
+      observer.disconnect();
+      if (cursor.matches(':popover-open')) cursor.hidePopover();
+    };
+  }, [enabled]);
 
   useEffect(() => {
     if (!enabled) return undefined;
@@ -74,7 +98,7 @@ export default function CustomCursor() {
   const modifier = state ? ` cursor--${state}` : '';
 
   return (
-    <div className={`cursor${modifier}`} aria-hidden="true">
+    <div ref={layerRef} className={`cursor${modifier}`} popover="manual" aria-hidden="true">
       <div ref={ringRef} className="cursor__ring">
         <span className="cursor__label">{LABELS[state] ?? ''}</span>
       </div>
