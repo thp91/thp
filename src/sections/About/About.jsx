@@ -59,11 +59,14 @@ export default function About() {
               <li key={experience.id} className="about__item">
                 <span className="about__marker" aria-hidden="true" />
                 <span className="about__number label">{experience.number}</span>
-                <span className="about__name">
-                  <span className="about__name-outline" aria-hidden="true">
-                    {experience.name}
+                <span className="about__body">
+                  <span className="about__name">
+                    <span className="about__name-outline" aria-hidden="true">
+                      {experience.name}
+                    </span>
+                    <span className="about__name-fill">{experience.name}</span>
                   </span>
-                  <span className="about__name-fill">{experience.name}</span>
+                  {experience.role && <span className="about__role">{experience.role}</span>}
                 </span>
                 {experience.url && (
                   <a

@@ -50,9 +50,56 @@
   justify-content: space-between;
 }
 
+.service-card__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  margin: -0.4rem -0.4rem 0 0;
+  padding: 0.4rem;
+  border-radius: var(--radius-pill);
+}
+
+.service-card__toggle-label {
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateX(8px);
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-medium) var(--ease-out);
+}
+
 .service-card__arrow {
-  font-size: 2.5rem;
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 1.4rem;
   line-height: 1;
+  transition: transform var(--duration-medium) var(--ease-out);
+}
+
+/* Le libellé se révèle au survol ; toujours visible sur écran tactile */
+.service-card__toggle:hover .service-card__toggle-label,
+.service-card__toggle:focus-visible .service-card__toggle-label {
+  opacity: 1;
+  transform: none;
+}
+
+.service-card__toggle:hover .service-card__arrow {
+  transform: rotate(45deg);
+}
+
+@media (hover: none) {
+  .service-card__toggle-label {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .service-card__title {

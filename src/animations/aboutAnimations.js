@@ -38,6 +38,9 @@ export function createAboutTimeline(root) {
       .from(item.querySelector('.about__name-fill'), { x: 140, clipPath: 'inset(0% 100% 0% 0%)', duration: 0.7, ease: 'power2.out' }, at + 0.15)
       .to(item.querySelector('.about__name-outline'), { opacity: 0, duration: 0.2 }, at + 0.85)
       .from(item.querySelector('.about__number'), { autoAlpha: 0, duration: 0.3 }, at + 0.3);
+
+    const role = item.querySelector('.about__role');
+    if (role) tl.from(role, { y: 12, autoAlpha: 0, duration: 0.4 }, at + 0.5);
   });
 
   return tl;

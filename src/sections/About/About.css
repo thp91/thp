@@ -113,3 +113,17 @@
 .about__name-fill {
   display: block;
 }
+
+.about__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.about__role {
+  max-width: 44rem;
+  color: var(--color-muted-dark);
+  font-size: var(--font-size-small);
+  line-height: 1.45;
+}
