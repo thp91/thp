@@ -1,0 +1,83 @@
+/* Le mélange « difference » adapte automatiquement le contraste au fond */
+.cursor {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-cursor);
+  pointer-events: none;
+  mix-blend-mode: difference;
+}
+
+.cursor__dot,
+.cursor__ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  visibility: hidden;
+}
+
+.cursor__dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-cream);
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.cursor__ring {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--color-cream);
+}
+
+/* La taille est portée par un pseudo-élément pour ne pas entrer en conflit avec GSAP */
+.cursor__ring::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background-color: var(--color-cream);
+  transform: scale(0);
+  transition: transform var(--duration-medium) var(--ease-out);
+}
+
+.cursor__label {
+  position: relative;
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+  color: var(--color-ink);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.cursor--link .cursor__ring {
+  border-color: transparent;
+}
+
+.cursor--link .cursor__ring::before {
+  transform: scale(1.5);
+}
+
+.cursor--link .cursor__dot,
+.cursor--view .cursor__dot,
+.cursor--drag .cursor__dot {
+  transform: scale(0);
+}
+
+.cursor--view .cursor__ring,
+.cursor--drag .cursor__ring {
+  border-color: transparent;
+}
+
+.cursor--view .cursor__ring::before,
+.cursor--drag .cursor__ring::before {
+  transform: scale(2.6);
+}
+
+.cursor--view .cursor__label,
+.cursor--drag .cursor__label {
+  opacity: 1;
+}

@@ -1,0 +1,45 @@
+.tile-grid {
+  container-type: inline-size;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.tile-grid__inner {
+  --u: calc(100cqw / 480);
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.tile-grid__tile {
+  position: absolute;
+  top: calc(var(--row) * var(--u) * 99);
+  left: calc(var(--col) * var(--u) * 99);
+  width: calc(var(--u) * 84);
+  height: calc(var(--u) * 84);
+  border-radius: calc(var(--u) * 8);
+}
+
+.tile-grid__tile--round {
+  border-radius: calc(var(--u) * 40);
+}
+
+.tile-grid__tile--faint {
+  opacity: 0.13;
+}
+
+.tile-grid__tile--ink {
+  background-color: var(--color-ink);
+}
+
+.tile-grid__tile--lavender {
+  background-color: var(--color-lavender);
+}
+
+.tile-grid__tile--coral {
+  background-color: var(--color-coral);
+}
+
+.tile-grid__tile--line {
+  background-color: var(--color-line);
+}

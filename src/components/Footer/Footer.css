@@ -1,0 +1,29 @@
+.footer {
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--color-line-dark);
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 2rem;
+  padding-block: 1.75rem;
+}
+
+.footer__signature {
+  font-size: var(--font-size-small);
+}
+
+.footer__copyright {
+  color: var(--color-muted-dark);
+}
+
+@media (min-width: 768px) {
+  /* Laisse la place à l'indicateur de progression fixe */
+  .footer__inner {
+    padding-right: calc(var(--gutter) + 7rem);
+  }
+}

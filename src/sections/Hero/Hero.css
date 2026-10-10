@@ -1,0 +1,198 @@
+/* ---------- Commun ---------- */
+.hero__label {
+  color: var(--color-lavender-ink);
+}
+
+.hero__title {
+  font-weight: var(--font-weight-bold);
+}
+
+.hero__title-accent {
+  color: var(--color-lavender-ink);
+}
+
+.hero__stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero__stat-value {
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  letter-spacing: var(--letter-spacing-display);
+  text-transform: uppercase;
+}
+
+.hero__stat-text {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+}
+
+.hero__accent {
+  position: absolute;
+  border-radius: 6px;
+}
+
+.hero__accent--lavender {
+  background-color: var(--color-lavender);
+  border-radius: 50%;
+}
+
+.hero__accent--coral {
+  background-color: var(--color-coral);
+}
+
+.hero__accent--ink {
+  background-color: var(--color-ink);
+  border-radius: 50%;
+}
+
+/* ---------- Calque de scène (repère Figma 1440 × 900) ---------- */
+.hero--stage {
+  position: absolute;
+  inset: 0;
+}
+
+.hero--stage .hero__label {
+  position: absolute;
+  top: 154px;
+  left: 60px;
+}
+
+.hero--stage .hero__title {
+  position: absolute;
+  top: 214px;
+  left: 56px;
+  font-size: 112px;
+}
+
+.hero--stage .hero__lead {
+  position: absolute;
+  top: 486px;
+  left: 64px;
+  width: 640px;
+  font-size: 21px;
+  line-height: 1.35;
+}
+
+.hero--stage .hero__actions {
+  position: absolute;
+  top: 620px;
+  left: 63px;
+}
+
+.hero--stage .hero__stat {
+  position: absolute;
+  top: 609px;
+  left: 1103px;
+  gap: 4px;
+}
+
+.hero--stage .hero__stat-value {
+  font-size: 64px;
+}
+
+.hero--stage .hero__accent--lavender {
+  top: 499px;
+  left: 924px;
+  width: 35px;
+  height: 35px;
+}
+
+.hero--stage .hero__accent--coral {
+  top: 173px;
+  left: 1344px;
+  width: 25px;
+  height: 25px;
+}
+
+.hero--stage .hero__accent--ink {
+  top: 725px;
+  left: 1288px;
+  width: 20px;
+  height: 20px;
+}
+
+.hero--stage .hero__hint {
+  position: absolute;
+  top: 850px;
+  left: 58px;
+}
+
+/* ---------- Section fluide ---------- */
+.hero--flow {
+  position: relative;
+  display: grid;
+  gap: 2.5rem;
+  min-height: 100svh;
+  padding: calc(var(--header-height) + 2.5rem) var(--gutter) 3rem;
+  overflow: hidden;
+}
+
+.hero--flow .hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero--flow .hero__title {
+  font-size: clamp(3.1rem, 13vw, 7rem);
+}
+
+.hero--flow .hero__lead {
+  max-width: 34rem;
+  font-size: var(--font-size-lead);
+  line-height: 1.4;
+}
+
+.hero--flow .hero__actions {
+  margin-top: 0.5rem;
+}
+
+.hero--flow .hero__aside {
+  position: relative;
+  order: 3;
+}
+
+.hero--flow .hero__stat-value {
+  font-size: clamp(2.75rem, 10vw, 4rem);
+}
+
+.hero--flow .hero__accent {
+  display: none;
+}
+
+.hero--flow .hero__visual {
+  order: 2;
+  width: min(100%, 26rem);
+}
+
+.hero--flow .hero__hint {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .hero--flow {
+    grid-template-columns: 1.4fr 1fr;
+    align-content: center;
+  }
+
+  .hero--flow .hero__content {
+    grid-column: 1 / -1;
+  }
+
+  .hero--flow .hero__visual {
+    order: 3;
+    justify-self: end;
+    align-self: end;
+  }
+
+  .hero--flow .hero__aside {
+    order: 2;
+    align-self: end;
+  }
+}
+
+.hero__hint-text {
+  display: inline-block;
+}

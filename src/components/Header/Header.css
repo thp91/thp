@@ -1,0 +1,199 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-header);
+  color: var(--color-ink);
+  transition: color var(--duration-medium) var(--ease-out);
+}
+
+.header--dark {
+  color: var(--color-cream);
+}
+
+.header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  max-width: calc(var(--container-width) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding: 2.5rem var(--gutter) 1.75rem;
+}
+
+.header__brand {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.header__logo {
+  width: 98px;
+}
+
+.header__brand-name {
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.header__list {
+  display: flex;
+  gap: clamp(1.5rem, 4vw, 4.5rem);
+}
+
+.header__link {
+  position: relative;
+  display: inline-flex;
+  gap: 0.4em;
+  padding-block: 0.5rem;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+/* Soulignement dynamique : entre par la gauche, sort par la droite */
+.header__link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.2rem;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--duration-medium) var(--ease-out);
+}
+
+.header__link:hover::after,
+.header__link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+
+.header__link-arrow {
+  transition: transform var(--duration-medium) var(--ease-out);
+}
+
+.header__link:hover .header__link-arrow {
+  transform: translate(2px, -2px);
+}
+
+.header__rule {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 0;
+  height: 1px;
+  max-width: var(--container-width);
+  margin-inline: auto;
+  background-color: currentColor;
+  opacity: 0.12;
+}
+
+.header__toggle {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .header__inner {
+    padding-block: 1rem;
+  }
+
+  .header__logo {
+    width: 72px;
+  }
+
+  .header__brand-name {
+    font-size: 0.6875rem;
+  }
+
+  .header__toggle {
+    position: relative;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 44px;
+    padding-inline: 0.25rem;
+    font-size: var(--font-size-label);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--letter-spacing-label);
+    text-transform: uppercase;
+  }
+
+  .header__toggle-icon,
+  .header__toggle-icon::before {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: currentColor;
+    transition: transform var(--duration-medium) var(--ease-out);
+  }
+
+  .header__toggle-icon {
+    position: relative;
+    transform: translateY(-4px);
+  }
+
+  .header__toggle-icon::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+  }
+
+  .header--menu-open .header__toggle-icon {
+    transform: translateY(0) rotate(45deg);
+  }
+
+  .header--menu-open .header__toggle-icon::before {
+    transform: translateY(-8px) rotate(-90deg);
+  }
+
+  /* L'en-tête est transformé (masquage au scroll) : le panneau se cale sur sa hauteur d'écran */
+  .header__nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100svh;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: 6rem var(--gutter) 3rem;
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+    transition:
+      clip-path 0.6s var(--ease-in-out),
+      visibility 0s linear 0.6s;
+  }
+
+  .header--menu-open .header__nav {
+    clip-path: inset(0);
+    visibility: visible;
+    transition: clip-path 0.6s var(--ease-in-out);
+  }
+
+  .header--menu-open {
+    color: var(--color-cream);
+  }
+
+  .header__list {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .header__link {
+    font-size: clamp(2.5rem, 12vw, 3.5rem);
+    letter-spacing: var(--letter-spacing-display);
+    text-transform: none;
+  }
+
+  .header__rule {
+    display: none;
+  }
+}

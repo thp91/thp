@@ -1,0 +1,64 @@
+:root {
+  /* Couleurs — valeurs relevées dans le Figma (frame 7:3) */
+  --color-ink: #1e1e1f;
+  --color-night: #141417;
+  --color-cream: #faf8f3;
+  --color-white: #ffffff;
+  --color-lavender: #b59bfa;
+  --color-lavender-ink: #6f53cc; /* lavande assombrie : texte de petite taille sur fond clair (AA) */
+  --color-coral: #ff6c5c;
+  --color-coral-ink: #c8402f; /* corail assombri : texte de petite taille sur fond clair (AA) */
+  --color-line: #eae6e1;
+  --color-line-dark: #2c2c31;
+  --color-muted: #5b5a58;
+  --color-muted-dark: #a9a7a2;
+
+  --color-background: var(--color-cream);
+  --color-text: var(--color-ink);
+
+  /* Typographie */
+  --font-family: 'Inter Variable', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-weight-regular: 400;
+  --font-weight-bold: 700;
+
+  --font-size-label: 0.75rem; /* 12px — libellés en capitales */
+  --font-size-small: 0.9375rem; /* 15px */
+  --font-size-body: clamp(1.0625rem, 0.95rem + 0.4vw, 1.4375rem); /* 17 → 23px */
+  --font-size-lead: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --font-size-h3: clamp(1.75rem, 1.2rem + 1.6vw, 2.75rem);
+  --font-size-display: clamp(3rem, 1rem + 6.6vw, 7rem); /* jusqu'à 112px */
+  --font-size-giant: clamp(3.25rem, 0.5rem + 9vw, 9.5rem);
+
+  --line-height-tight: 1.05;
+  --line-height-text: 1.48;
+  --letter-spacing-display: -0.035em;
+  --letter-spacing-label: 0.04em;
+
+  /* Mise en page */
+  --container-width: 1328px;
+  --gutter: clamp(1rem, 0.4rem + 3vw, 3.5rem); /* 16px → 56px */
+  --section-space: clamp(5rem, 3rem + 8vw, 10rem);
+  --header-height: 7rem;
+
+  /* Formes */
+  --radius-small: 8px;
+  --radius-medium: 16px;
+  --radius-large: 28px;
+  --radius-pill: 999px;
+
+  /* Mouvement */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 0.25s;
+  --duration-medium: 0.5s;
+
+  --z-header: 50;
+  --z-progress: 40;
+  --z-cursor: 100;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --header-height: 4.5rem;
+  }
+}

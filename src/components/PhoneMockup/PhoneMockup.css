@@ -1,0 +1,118 @@
+.phone-mockup {
+  container-type: inline-size;
+  width: 100%;
+  aspect-ratio: 300 / 620;
+}
+
+.phone-mockup__device {
+  --u: calc(100cqw / 300);
+  width: 100%;
+  height: 100%;
+  padding: calc(var(--u) * 10);
+  border-radius: calc(var(--u) * 46);
+  background-color: var(--color-ink);
+}
+
+.phone-mockup__screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 12);
+  height: 100%;
+  overflow: hidden;
+  padding: calc(var(--u) * 46) calc(var(--u) * 16) calc(var(--u) * 16);
+  border-radius: calc(var(--u) * 36);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+.phone-mockup__notch {
+  position: absolute;
+  top: calc(var(--u) * 12);
+  left: 50%;
+  width: calc(var(--u) * 86);
+  height: calc(var(--u) * 22);
+  border-radius: calc(var(--u) * 12);
+  background-color: var(--color-ink);
+  transform: translateX(-50%);
+}
+
+.phone-mockup__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.phone-mockup__brand {
+  font-size: calc(var(--u) * 14);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+.phone-mockup__burger {
+  width: calc(var(--u) * 22);
+  height: calc(var(--u) * 10);
+  border-block: calc(var(--u) * 2) solid var(--color-ink);
+}
+
+.phone-mockup__hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--u) * 18);
+  min-height: calc(var(--u) * 300);
+  overflow: hidden;
+  padding: calc(var(--u) * 22) calc(var(--u) * 18);
+  border-radius: calc(var(--u) * 16);
+  background-color: var(--color-lavender);
+}
+
+.phone-mockup__title {
+  font-size: calc(var(--u) * 32);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.phone-mockup__cta {
+  align-self: flex-start;
+  padding: calc(var(--u) * 11) calc(var(--u) * 16);
+  border-radius: calc(var(--u) * 22);
+  background-color: var(--color-coral);
+  font-size: calc(var(--u) * 11);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.phone-mockup__shape {
+  position: absolute;
+  right: calc(var(--u) * -20);
+  bottom: calc(var(--u) * -20);
+  width: calc(var(--u) * 110);
+  height: calc(var(--u) * 110);
+  border-radius: 50%;
+  background-color: var(--color-ink);
+}
+
+.phone-mockup__cards {
+  display: grid;
+  gap: calc(var(--u) * 10);
+}
+
+.phone-mockup__card {
+  padding: calc(var(--u) * 22) calc(var(--u) * 16);
+  border-radius: calc(var(--u) * 12);
+  font-size: calc(var(--u) * 12);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+.phone-mockup__card--ink {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+}
+
+.phone-mockup__card--lavender {
+  background-color: var(--color-coral);
+}

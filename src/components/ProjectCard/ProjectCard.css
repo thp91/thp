@@ -1,0 +1,152 @@
+.project-card {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.project-card__stage {
+  perspective: 1200px;
+}
+
+.project-card__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+  border-radius: var(--radius-medium);
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 1px var(--color-line);
+  transform-style: preserve-3d;
+}
+
+.project-card__chrome {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding-left: 16px;
+  background-color: var(--color-ink);
+}
+
+.project-card__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--color-coral);
+}
+
+.project-card__dot:nth-child(2) {
+  background-color: var(--color-lavender);
+}
+
+.project-card__dot:nth-child(3) {
+  background-color: var(--color-cream);
+}
+
+.project-card__image {
+  width: 100%;
+  height: 100%;
+  padding-top: 36px;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.project-card__artwork {
+  position: absolute;
+  inset: 36px 0 0;
+  display: grid;
+  place-items: center;
+  background-color: var(--color-cream);
+}
+
+.project-card__tiles {
+  width: 42%;
+  transition: transform 0.8s var(--ease-out);
+}
+
+.project-card__media:hover .project-card__tiles {
+  transform: rotate(-6deg) scale(1.04);
+}
+
+.project-card__badge {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px dashed var(--color-muted);
+  border-radius: var(--radius-pill);
+  color: var(--color-muted);
+}
+
+.project-card__body {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.project-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  align-items: center;
+  color: var(--color-muted);
+}
+
+.project-card__kind {
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+}
+
+.project-card__kind--personnel {
+  background-color: var(--color-line);
+}
+
+.project-card__kind--freelance {
+  background-color: var(--color-lavender);
+}
+
+.project-card__kind--agence {
+  background-color: var(--color-coral);
+}
+
+.project-card__title {
+  font-size: var(--font-size-h3);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.project-card__type {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+}
+
+.project-card__details {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  font-size: var(--font-size-small);
+  line-height: 1.45;
+}
+
+.project-card__detail dt {
+  margin-bottom: 0.15rem;
+  color: var(--color-muted);
+}
+
+.project-card__detail dd {
+  margin: 0;
+}
+
+.project-card--placeholder .project-card__detail dd {
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+@media (min-width: 900px) {
+  .project-card__details {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}

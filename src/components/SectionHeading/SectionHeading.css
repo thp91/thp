@@ -1,0 +1,25 @@
+.section-heading {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.section-heading__label {
+  color: var(--color-lavender-ink);
+}
+
+.section-heading--dark .section-heading__label {
+  color: var(--color-lavender);
+}
+
+.section-heading__title {
+  font-size: var(--font-size-display);
+}
+
+.section-heading__accent {
+  color: var(--color-lavender-ink);
+}
+
+.section-heading--dark .section-heading__accent {
+  color: var(--color-lavender);
+}

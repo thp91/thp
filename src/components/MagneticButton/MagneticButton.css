@@ -1,0 +1,97 @@
+.magnetic-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  line-height: 1.05;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.magnetic-button--medium {
+  padding: 0.85rem 1.4rem;
+}
+
+.magnetic-button--large {
+  min-height: 56px;
+  padding: 1.1rem 1.8rem;
+}
+
+.magnetic-button--dark {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+}
+
+.magnetic-button--light {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+}
+
+.magnetic-button--coral {
+  background-color: var(--color-coral);
+  color: var(--color-ink);
+}
+
+/* Remplissage : une forme arrondie monte depuis le bas */
+.magnetic-button__fill {
+  position: absolute;
+  inset: -10% -5%;
+  z-index: -1;
+  border-radius: 50% 50% 0 0 / 60% 60% 0 0;
+  transform: translateY(105%);
+  transition:
+    transform var(--duration-medium) var(--ease-out),
+    border-radius var(--duration-medium) var(--ease-out);
+}
+
+.magnetic-button--dark .magnetic-button__fill {
+  background-color: var(--color-lavender);
+}
+
+.magnetic-button--light .magnetic-button__fill,
+.magnetic-button--coral .magnetic-button__fill {
+  background-color: var(--color-lavender);
+}
+
+.magnetic-button__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9em;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.magnetic-button__arrow {
+  display: inline-block;
+  transition: transform var(--duration-medium) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .magnetic-button:hover .magnetic-button__fill {
+    transform: translateY(0);
+    border-radius: 0;
+  }
+
+  .magnetic-button--dark:hover .magnetic-button__label {
+    color: var(--color-ink);
+  }
+
+  .magnetic-button:hover .magnetic-button__arrow {
+    transform: translate(0.15em, -0.15em) rotate(45deg);
+  }
+}
+
+.magnetic-button:focus-visible .magnetic-button__fill {
+  transform: translateY(0);
+  border-radius: 0;
+}
+
+.magnetic-button--dark:focus-visible .magnetic-button__label {
+  color: var(--color-ink);
+}

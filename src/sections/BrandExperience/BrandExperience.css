@@ -1,0 +1,95 @@
+.brand {
+  color: var(--color-cream);
+}
+
+.brand__label,
+.brand__hint {
+  color: var(--color-lavender);
+}
+
+.brand__title {
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.brand__word {
+  display: inline-block;
+}
+
+.brand__word--code {
+  color: var(--color-coral);
+}
+
+.brand__hint {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+/* ---------- Calque de scène ---------- */
+.brand--stage {
+  position: absolute;
+  inset: 0;
+}
+
+.brand--stage .brand__label {
+  position: absolute;
+  top: 132px;
+  left: 60px;
+}
+
+.brand--stage .brand__title {
+  position: absolute;
+  top: 618px;
+  left: 77px;
+  width: 1290px;
+  font-size: 96px;
+  line-height: 1.05;
+}
+
+.brand--stage .brand__word--code {
+  position: absolute;
+  top: 0;
+  left: 552px;
+}
+
+.brand--stage .brand__text {
+  position: absolute;
+  top: 761px;
+  left: 84px;
+  font-size: 22px;
+}
+
+.brand--stage .brand__hint {
+  position: absolute;
+  top: 787px;
+  left: 1190px;
+}
+
+/* ---------- Section fluide ---------- */
+.brand--flow {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  padding: var(--section-space) var(--gutter);
+  background-color: var(--color-night);
+}
+
+.brand--flow .brand__visual {
+  width: min(100%, 44rem);
+  margin-block: 1rem;
+}
+
+.brand--flow .brand__title {
+  font-size: clamp(3rem, 12vw, 6rem);
+  line-height: 1;
+}
+
+.brand--flow .brand__text {
+  font-size: var(--font-size-lead);
+}
+
+.brand--flow .brand__hint {
+  display: none;
+}

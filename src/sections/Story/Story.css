@@ -1,0 +1,105 @@
+.story {
+  position: relative;
+  background-color: var(--color-cream);
+}
+
+.story__viewport {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+}
+
+.story__night {
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-night);
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Repère de la maquette (1440 × 900) mis à l'échelle de la fenêtre */
+.story__canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1440px;
+  height: 900px;
+  transform: translate(-50%, -50%) scale(var(--stage-scale, 1));
+}
+
+.story__visuals {
+  position: absolute;
+  inset: 0;
+}
+
+.story__grid {
+  position: absolute;
+  top: 186px;
+  left: 825px;
+  width: 480px;
+}
+
+.story__grid .tile-grid__tile {
+  transform: scale(0);
+}
+
+.story__browser {
+  position: absolute;
+  top: 125px;
+  left: 626px;
+  width: 741px;
+  transform-origin: 50% 50%;
+}
+
+.story__browser .browser-mockup__frame {
+  clip-path: inset(0% 0% 100% 0% round 16px);
+}
+
+.story__phone {
+  position: absolute;
+  top: 140px;
+  left: 930px;
+  width: 300px;
+}
+
+.story-piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.story-piece__parallax,
+.story-piece__reveal,
+.story-piece__shape,
+.story-piece__block {
+  position: absolute;
+  inset: 0;
+}
+
+.story-piece__shape {
+  width: 100%;
+  height: 100%;
+}
+
+.story-piece__block {
+  opacity: 0;
+}
+
+.story-piece[data-piece-id='card'] .story-piece__block {
+  opacity: 1;
+}
+
+.story-piece__block--t-bar,
+.story-piece__block--t-stem {
+  background-color: var(--color-ink);
+}
+
+.story-piece__block--h-left,
+.story-piece__block--h-right {
+  background-color: var(--color-lavender);
+}
+
+.story-piece__block--p,
+.story-piece__block--card {
+  background-color: var(--color-coral);
+}

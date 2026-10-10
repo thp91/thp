@@ -1,0 +1,52 @@
+.scroll-progress {
+  position: fixed;
+  right: var(--gutter);
+  bottom: 1.75rem;
+  z-index: var(--z-progress);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.6rem;
+  color: var(--color-ink);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  pointer-events: none;
+  transition: color var(--duration-medium) var(--ease-out);
+}
+
+.scroll-progress--dark {
+  color: var(--color-cream);
+}
+
+.scroll-progress__count {
+  font-variant-numeric: tabular-nums;
+}
+
+.scroll-progress__track {
+  position: relative;
+  width: 80px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.scroll-progress__track::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: currentColor;
+  opacity: 0.2;
+}
+
+.scroll-progress__bar {
+  position: absolute;
+  inset: 0;
+  background-color: currentColor;
+  transform-origin: left center;
+}
+
+@media (max-width: 767px) {
+  .scroll-progress {
+    display: none;
+  }
+}

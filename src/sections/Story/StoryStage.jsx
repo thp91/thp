@@ -1,0 +1,143 @@
+import { useEffect, useRef } from 'react';
+import { gsap, useGSAP } from '../../lib/gsap';
+import { emitHeaderTheme, emitScene } from '../../lib/events';
+import { LOGO_PIECES } from '../../assets/logos/thpLetters';
+import LogoPiece from '../../components/LogoPiece/LogoPiece';
+import TileGrid from '../../components/TileGrid/TileGrid';
+import BrowserMockup from '../../components/BrowserMockup/BrowserMockup';
+import PhoneMockup from '../../components/PhoneMockup/PhoneMockup';
+import Hero from '../Hero/Hero';
+import BrandExperience from '../BrandExperience/BrandExperience';
+import WebsiteBuilder from '../WebsiteBuilder/WebsiteBuilder';
+import WebsitePreview from '../WebsitePreview/WebsitePreview';
+import { createHeroIntro, bindLogoPointer } from '../../animations/heroAnimations';
+import { addBrandScene } from '../../animations/brandAnimations';
+import { addBuildScene, addRevealScene, addResponsiveScene } from '../../animations/websiteAnimations';
+import { getPieceStates } from '../../animations/storyGeometry';
+import './Story.css';
+
+const DESIGN_WIDTH = 1440;
+const DESIGN_HEIGHT = 900;
+const PARALLAX_DEPTH = { 't-bar': 14, 't-stem': 10, 'h-left': -12, 'h-right': -16, p: 22 };
+
+/** Seuils (en temps de timeline) des scènes et du thème de l'en-tête. */
+const SCENE_MARKERS = [
+  { at: 0, scene: 1, theme: 'light' },
+  { at: 0.35, scene: 2, theme: 'dark' },
+  { at: 1.65, scene: 3, theme: 'light' },
+  { at: 3.3, scene: 4, theme: 'light' },
+];
+
+export default function StoryStage() {
+  const rootRef = useRef(null);
+
+  // Mise à l'échelle du repère 1440 × 900 pour tenir dans la fenêtre
+  useEffect(() => {
+    const root = rootRef.current;
+    const fit = () => {
+      const scale = Math.min(window.innerWidth / DESIGN_WIDTH, window.innerHeight / DESIGN_HEIGHT);
+      root.style.setProperty('--stage-scale', scale.toFixed(4));
+    };
+    fit();
+    window.addEventListener('resize', fit);
+    return () => window.removeEventListener('resize', fit);
+  }, []);
+
+  useGSAP(
+    () => {
+      const root = rootRef.current;
+      const q = gsap.utils.selector(root);
+      const states = getPieceStates();
+      const pieces = LOGO_PIECES.map(({ id }) => ({ id, element: root.querySelector(`[data-piece-id="${id}"]`) }));
+      const cardPiece = root.querySelector('[data-piece-id="card"]');
+
+      // États initiaux
+      pieces.forEach(({ id, element }) => gsap.set(element, states[id].hero));
+      const { borderRadius: cardRadius, ...cardRect } = states.card.tile;
+      gsap.set(cardPiece, { ...cardRect, autoAlpha: 0 });
+      gsap.set(cardPiece.querySelector('.story-piece__block'), { borderRadius: cardRadius });
+      gsap.set(q('.brand, .builder, .preview'), { autoAlpha: 1 });
+      gsap.set(q('.story__browser .browser-mockup__block, .story__browser .browser-mockup__content'), { autoAlpha: 0 });
+      gsap.set(q('.story__phone'), { autoAlpha: 0 });
+      gsap.set(q('.brand__label, .brand__title > *, .brand__text, .brand__hint, .builder__label, .builder__text, .builder__actions, .preview__label, .preview__text, .preview__caption'), { autoAlpha: 0 });
+
+      const intro = createHeroIntro(root);
+
+      let currentScene = 1;
+      let currentTheme = 'light';
+      const tl = gsap.timeline({
+        defaults: { ease: 'power2.out' },
+        scrollTrigger: {
+          trigger: root,
+          start: 'top top',
+          end: '+=430%',
+          pin: root.querySelector('.story__viewport'),
+          scrub: 0.8,
+          anticipatePin: 1,
+          onUpdate: () => {
+            const time = tl.time();
+            const marker = SCENE_MARKERS.filter((item) => time >= item.at).pop();
+            if (marker.scene !== currentScene) {
+              currentScene = marker.scene;
+              emitScene(marker.scene);
+            }
+            if (marker.theme !== currentTheme) {
+              currentTheme = marker.theme;
+              emitHeaderTheme(marker.theme);
+            }
+          },
+        },
+      });
+
+      // Si l'utilisateur fait défiler avant la fin de l'intro, on la termine aussitôt
+      tl.eventCallback('onUpdate', () => {
+        if (intro.isActive() && tl.progress() > 0.01) intro.progress(1);
+      });
+
+      const ctx = { q, pieces, cardPiece, states };
+      let time = addBrandScene(tl, ctx);
+      time = addBuildScene(tl, ctx, time);
+      time = addRevealScene(tl, ctx, time);
+      time = addResponsiveScene(tl, ctx, time);
+      tl.to({}, { duration: 0.3 }, time); // court temps de lecture avant de libérer la scène
+
+      const unbindPointer = window.matchMedia('(pointer: fine)').matches ? bindLogoPointer(root) : null;
+      return () => unbindPointer?.();
+    },
+    { scope: rootRef },
+  );
+
+  return (
+    <section ref={rootRef} className="story" id="top" aria-label="Présentation">
+      <div className="story__viewport">
+        <div className="story__night" aria-hidden="true" />
+        <div className="story__canvas">
+          <div className="story__visuals" aria-hidden="true">
+            <TileGrid className="story__grid" hidePieces />
+            <BrowserMockup className="story__browser" />
+            <PhoneMockup className="story__phone" />
+
+            {LOGO_PIECES.map((piece) => (
+              <div key={piece.id} className="story-piece" data-piece-id={piece.id}>
+                <div className="story-piece__parallax" data-parallax={PARALLAX_DEPTH[piece.id]}>
+                  <div className="story-piece__reveal" data-intro="logo" data-piece={piece.id}>
+                    <LogoPiece piece={piece} className="story-piece__shape" />
+                    <div className={`story-piece__block story-piece__block--${piece.id}`} />
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="story-piece" data-piece-id="card">
+              <div className="story-piece__block story-piece__block--card" />
+            </div>
+          </div>
+
+          <Hero variant="stage" />
+          <BrandExperience variant="stage" />
+          <WebsiteBuilder variant="stage" />
+          <WebsitePreview variant="stage" />
+        </div>
+      </div>
+    </section>
+  );
+}

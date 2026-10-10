@@ -1,0 +1,92 @@
+.builder__label {
+  color: var(--color-lavender-ink);
+}
+
+.builder__title {
+  font-weight: var(--font-weight-bold);
+}
+
+/* ---------- Calque de scène ---------- */
+.builder--stage {
+  position: absolute;
+  inset: 0;
+}
+
+.builder--stage .builder__label {
+  position: absolute;
+  top: 148px;
+  left: 64px;
+}
+
+.builder--stage .builder__title {
+  position: absolute;
+  top: 196px;
+  left: 56px;
+  font-size: 104px;
+}
+
+.builder--stage .builder__text {
+  position: absolute;
+  top: 456px;
+  left: 65px;
+  width: 560px;
+  font-size: 23px;
+}
+
+.builder--stage .builder__actions {
+  position: absolute;
+  top: 706px;
+  left: 850px;
+}
+
+.builder--stage .builder__actions .magnetic-button {
+  width: 500px;
+  justify-content: flex-start;
+}
+
+/* ---------- Section fluide ---------- */
+.builder--flow {
+  display: grid;
+  gap: 1.5rem;
+  padding: var(--section-space) var(--gutter);
+}
+
+.builder--flow .builder__title {
+  font-size: clamp(2.6rem, 10vw, 6.5rem);
+}
+
+.builder--flow .builder__text {
+  max-width: 36rem;
+}
+
+.builder--flow .builder__grid {
+  width: min(100%, 30rem);
+  margin-block: 1.5rem;
+  justify-self: center;
+}
+
+.builder--flow .builder__actions .magnetic-button {
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+}
+
+@media (min-width: 900px) {
+  .builder--flow {
+    grid-template-columns: 1.2fr 1fr;
+    column-gap: 3rem;
+    align-items: start;
+  }
+
+  .builder--flow .builder__label,
+  .builder--flow .builder__title,
+  .builder--flow .builder__text {
+    grid-column: 1;
+  }
+
+  .builder--flow .builder__grid {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+    margin: 0;
+  }
+}

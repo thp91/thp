@@ -1,0 +1,235 @@
+.contact {
+  position: relative;
+  overflow: hidden;
+  padding-top: var(--section-space);
+  background-color: var(--color-night);
+  color: var(--color-cream);
+}
+
+.contact__inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+
+.contact__label {
+  color: var(--color-lavender);
+}
+
+.contact__logo {
+  flex: 0 0 auto;
+  width: clamp(110px, 17vw, 241px);
+}
+
+.contact__title {
+  font-size: var(--font-size-giant);
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+  text-transform: uppercase;
+}
+
+.contact__line {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.25em;
+}
+
+.contact__word-mask {
+  display: inline-block;
+}
+
+.contact__word {
+  display: inline-block;
+}
+
+.contact__word--accent {
+  color: var(--color-coral);
+  font-size: 1.3em;
+}
+
+.contact__rule {
+  display: block;
+  height: 2px;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  background-color: var(--color-cream);
+  transform-origin: left center;
+}
+
+/* Le bouton devient l'élément principal de la composition */
+.contact__cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-block: clamp(1rem, 2.5vw, 2rem);
+  font-size: clamp(1.75rem, 0.6rem + 5vw, 5.5rem);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  transition: color var(--duration-medium) var(--ease-out);
+}
+
+.contact__cta-arrow {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 auto;
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 50%;
+  background-color: var(--color-coral);
+  color: var(--color-ink);
+  font-size: 0.8em;
+  transition:
+    transform var(--duration-medium) var(--ease-out),
+    background-color var(--duration-medium) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .contact__cta:hover {
+    color: var(--color-lavender);
+  }
+
+  .contact__cta:hover .contact__cta-arrow {
+    transform: rotate(45deg) scale(1.08);
+    background-color: var(--color-lavender);
+  }
+}
+
+.contact__grid {
+  display: grid;
+  gap: 3rem;
+  margin-top: clamp(2.5rem, 5vw, 4.5rem);
+  padding-bottom: var(--section-space);
+}
+
+.contact__direct {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.contact__direct-text {
+  max-width: 26rem;
+  color: var(--color-muted-dark);
+}
+
+.contact__email {
+  align-self: flex-start;
+  font-size: var(--font-size-lead);
+  font-weight: var(--font-weight-bold);
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  overflow-wrap: anywhere;
+  transition: background-size var(--duration-medium) var(--ease-out);
+}
+
+.contact__email:hover {
+  background-size: 0 1px;
+  background-position: 100% 100%;
+}
+
+.contact__form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.contact__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contact__field-label {
+  color: var(--color-muted-dark);
+}
+
+.contact__input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--color-muted-dark);
+  border-radius: 0;
+  background: transparent;
+  font-size: 1.0625rem;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.contact__input:focus {
+  outline: none;
+  border-bottom-color: var(--color-lavender);
+}
+
+.contact__input:focus-visible {
+  outline: 2px solid var(--color-lavender);
+  outline-offset: 4px;
+}
+
+.contact__input--textarea {
+  resize: vertical;
+}
+
+.contact__submit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.contact__status {
+  max-width: 22rem;
+  color: var(--color-muted-dark);
+  font-size: 0.875rem;
+}
+
+/* Courbes du H, en rappel du logo */
+.contact__curve {
+  position: absolute;
+  bottom: -18%;
+  width: clamp(110px, 13vw, 220px);
+  aspect-ratio: 165.922 / 414.2;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.contact__curve--left {
+  left: -4%;
+}
+
+.contact__curve--right {
+  right: -4%;
+}
+
+.contact__curve-shape {
+  width: 100%;
+  height: 100%;
+}
+
+@media (min-width: 900px) {
+  .contact__grid {
+    grid-template-columns: 1fr 1.4fr;
+  }
+
+  .contact__form {
+    grid-template-columns: 1fr 1fr;
+    column-gap: 1.5rem;
+  }
+
+  .contact__field--wide,
+  .contact__submit {
+    grid-column: 1 / -1;
+  }
+}
