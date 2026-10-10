@@ -39,7 +39,8 @@ export function createServicesTimeline(section) {
     y: () => focus(card, below ? window.innerHeight : 0).y,
     scale: () => focus(card).scale,
   });
-  const rest = { x: 0, y: 0, scale: 1 };
+  // Objet neuf à chaque appel : GSAP enrichit les vars qu'on lui passe (startAt…)
+  const rest = () => ({ x: 0, y: 0, scale: 1 });
 
   cards.forEach((card, index) => gsap.set(card, { zIndex: index + 1 }));
 
@@ -55,12 +56,12 @@ export function createServicesTimeline(section) {
     },
   });
 
-  tl.fromTo(cards[0], focusVars(cards[0]), rest, 0.2);
+  tl.fromTo(cards[0], focusVars(cards[0]), rest(), 0.2);
 
   cards.slice(1).forEach((card, i) => {
     const at = 0.05 + i * 1.05;
     tl.fromTo(card, focusVars(card, true), { ...focusVars(card), ease: 'power3.out' }, at)
-      .to(card, rest, at + 1.1);
+      .to(card, rest(), at + 1.1);
   });
 
   tl.to({}, { duration: 0.3 });
