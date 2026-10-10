@@ -38,7 +38,7 @@
   --container-width: 1328px;
   --gutter: clamp(1rem, 0.4rem + 3vw, 3.5rem); /* 16px → 56px */
   --section-space: clamp(5rem, 3rem + 8vw, 10rem);
-  --header-height: 7rem;
+  --header-height: 4.75rem;
 
   /* Formes */
   --radius-small: 8px;
@@ -59,6 +59,6 @@
 
 @media (max-width: 767px) {
   :root {
-    --header-height: 4.5rem;
+    --header-height: 4rem;
   }
 }

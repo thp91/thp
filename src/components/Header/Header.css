@@ -1,9 +1,13 @@
+/* En-tête fixe ; fond = surface de la page située juste dessous (voir lib/surface.js) */
 .header {
   position: fixed;
   inset: 0 0 auto;
   z-index: var(--z-header);
+  background-color: var(--header-surface, var(--color-cream));
   color: var(--color-ink);
-  transition: color var(--duration-medium) var(--ease-out);
+  transition:
+    color var(--duration-medium) var(--ease-out),
+    background-color var(--duration-medium) var(--ease-out);
 }
 
 .header--dark {
@@ -17,7 +21,7 @@
   gap: 2rem;
   max-width: calc(var(--container-width) + 2 * var(--gutter));
   margin-inline: auto;
-  padding: 2.5rem var(--gutter) 1.75rem;
+  padding: 0.9rem var(--gutter);
 }
 
 .header__brand {
@@ -27,11 +31,11 @@
 }
 
 .header__logo {
-  width: 98px;
+  width: 72px;
 }
 
 .header__brand-name {
-  font-size: 0.8125rem;
+  font-size: 0.6875rem;
   font-weight: var(--font-weight-bold);
   line-height: 1.05;
   text-transform: uppercase;
@@ -99,15 +103,15 @@
 
 @media (max-width: 767px) {
   .header__inner {
-    padding-block: 1rem;
+    padding-block: 0.6rem;
   }
 
   .header__logo {
-    width: 72px;
+    width: 60px;
   }
 
   .header__brand-name {
-    font-size: 0.6875rem;
+    font-size: 0.625rem;
   }
 
   .header__toggle {
@@ -179,6 +183,7 @@
   }
 
   .header--menu-open {
+    background-color: var(--color-ink);
     color: var(--color-cream);
   }
 

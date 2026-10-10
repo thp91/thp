@@ -116,7 +116,7 @@ export default function StoryStage({ layout: layoutName }) {
     <section ref={rootRef} className={`story story--${layoutName}`} id="top" aria-label="Présentation">
       <span className="story__probe" aria-hidden="true" />
       <div className="story__viewport">
-        <div className="story__night" aria-hidden="true" />
+        <div className="story__night" data-surface aria-hidden="true" />
         <div className="story__canvas">
           <div className="story__visuals" aria-hidden="true">
             <TileGrid className="story__grid" hidePieces />

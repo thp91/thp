@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
-import { onHeaderTheme } from '../../lib/events';
+import { getSurfaceAt, isDark } from '../../lib/surface';
 import { useScrollTo } from '../../hooks/useLenis';
 import { NAV_LINKS } from '../../data/site';
 import Logo from '../Logo/Logo';
@@ -12,36 +12,41 @@ export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const scrollTo = useScrollTo();
 
-  useEffect(() => onHeaderTheme(setTheme), []);
-
-  // Thème clair / sombre selon les sections marquées data-header-theme="dark"
+  // Fond et contraste suivent la surface située juste sous l'en-tête.
+  // Vérification pendant le défilement, et un court instant après
+  // (le temps que les scènes animées finissent leur transition).
   useGSAP(() => {
-    const triggers = gsap.utils.toArray('[data-header-theme="dark"]').map((section) =>
-      ScrollTrigger.create({
-        trigger: section,
-        start: 'top 60px',
-        end: 'bottom 60px',
-        onToggle: (self) => setTheme(self.isActive ? 'dark' : 'light'),
-      }),
-    );
-    return () => triggers.forEach((trigger) => trigger.kill());
-  });
+    const header = rootRef.current;
+    let activeUntil = 0;
+    let lastColor = '';
 
-  // Masquage au défilement vers le bas, réapparition vers le haut
-  useGSAP(
-    () => {
-      const show = gsap.quickTo(rootRef.current, 'yPercent', { duration: 0.45, ease: 'power3.out' });
-      ScrollTrigger.create({
-        start: 0,
-        end: 'max',
-        onUpdate: (self) => {
-          if (menuOpen) return;
-          show(self.direction === 1 && self.scroll() > 160 ? -110 : 0);
-        },
-      });
-    },
-    { scope: rootRef, dependencies: [menuOpen], revertOnUpdate: true },
-  );
+    const update = () => {
+      const { bottom } = header.getBoundingClientRect();
+      const surface = getSurfaceAt(4, bottom + 2, header);
+      if (surface.color === lastColor) return;
+      lastColor = surface.color;
+      header.style.setProperty('--header-surface', surface.color);
+      setTheme(surface.rgb && isDark(surface.rgb) ? 'dark' : 'light');
+    };
+
+    const tick = () => {
+      if (performance.now() < activeUntil) update();
+    };
+    const wake = () => {
+      activeUntil = performance.now() + 1500;
+    };
+
+    ScrollTrigger.create({ start: 0, end: 'max', onUpdate: wake });
+    ScrollTrigger.addEventListener('refresh', wake);
+    gsap.ticker.add(tick);
+    wake();
+    update();
+
+    return () => {
+      gsap.ticker.remove(tick);
+      ScrollTrigger.removeEventListener('refresh', wake);
+    };
+  });
 
   useEffect(() => {
     if (!menuOpen) return undefined;
