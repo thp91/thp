@@ -3,9 +3,21 @@
   background-color: var(--color-cream);
 }
 
+.story__probe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100svh;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* 100lvh : pas de bande vide quand la barre d'adresse mobile se replie.
+   Le repère reste centré sur la zone toujours visible (100svh). */
 .story__viewport {
   position: relative;
-  height: 100svh;
+  height: 100lvh;
   overflow: hidden;
 }
 
@@ -20,7 +32,7 @@
 /* Repère de la maquette (1440 × 900) mis à l'échelle de la fenêtre */
 .story__canvas {
   position: absolute;
-  top: 50%;
+  top: 50svh;
   left: 50%;
   width: 1440px;
   height: 900px;
@@ -102,4 +114,32 @@
 .story-piece__block--p,
 .story-piece__block--card {
   background-color: var(--color-coral);
+}
+
+/* ---------- Composition portrait (repère 390 × 700) ---------- */
+.story--portrait .story__canvas {
+  width: 390px;
+  height: 700px;
+}
+
+.story--portrait .story__grid {
+  top: 326px;
+  left: 35px;
+  width: 320px;
+}
+
+.story--portrait .story__browser {
+  top: 318px;
+  left: 20px;
+  width: 350px;
+}
+
+.story--portrait .story__browser .browser-mockup__frame {
+  clip-path: inset(0% 0% 100% 0% round 8px);
+}
+
+.story--portrait .story__phone {
+  top: 236px;
+  left: 175px;
+  width: 195px;
 }

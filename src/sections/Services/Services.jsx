@@ -1,9 +1,8 @@
 import { useRef } from 'react';
-import { gsap, MOTION_QUERIES, useGSAP } from '../../lib/gsap';
+import { addLayoutAnimation, gsap, useGSAP } from '../../lib/gsap';
 import { SERVICES } from '../../data/services';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
-import { createServicesTimeline } from '../../animations/servicesAnimations';
-import { revealFade, revealLines } from '../../animations/reveal';
+import { createServicesDeck, createServicesTimeline } from '../../animations/servicesAnimations';
 import './Services.css';
 
 /** Scène 05 — Les prestations. */
@@ -13,12 +12,9 @@ export default function Services() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      const q = gsap.utils.selector(rootRef.current);
-
-      mm.add(MOTION_QUERIES.motion, () => createServicesTimeline(rootRef.current));
-      mm.add(MOTION_QUERIES.light, () => {
-        revealLines(q('.section-heading__title .line-mask__inner'), rootRef.current);
-        q('.service-card').forEach((card) => revealFade(card, card));
+      addLayoutAnimation(mm, {
+        wide: () => createServicesTimeline(rootRef.current),
+        narrow: () => createServicesDeck(rootRef.current),
       });
 
       return () => mm.revert();

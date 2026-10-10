@@ -90,3 +90,37 @@
     margin: 0;
   }
 }
+
+/* ---------- Calque de scène, composition portrait ---------- */
+.story--portrait .builder--stage .builder__label {
+  top: 84px;
+  left: 20px;
+  font-size: 11px;
+}
+
+.story--portrait .builder--stage .builder__title {
+  top: 108px;
+  left: 18px;
+  width: 354px;
+  font-size: 38px;
+}
+
+.story--portrait .builder--stage .builder__text {
+  top: 242px;
+  left: 20px;
+  width: 350px;
+  font-size: 15.5px;
+  line-height: 1.45;
+}
+
+.story--portrait .builder--stage .builder__actions {
+  top: 652px;
+  left: 20px;
+}
+
+.story--portrait .builder--stage .builder__actions .magnetic-button {
+  width: 350px;
+  min-height: 44px;
+  padding: 0.75rem 1.25rem;
+  font-size: 12.5px;
+}

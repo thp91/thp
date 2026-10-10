@@ -67,3 +67,58 @@ export function createServicesTimeline(section) {
   tl.to({}, { duration: 0.3 });
   return tl;
 }
+
+/**
+ * Scène 05, composition portrait : les cartes arrivent l'une après l'autre
+ * et forment une pile ; les précédentes reculent légèrement.
+ */
+export function createServicesDeck(section) {
+  const root = section.querySelector('.services__viewport');
+  const cards = gsap.utils.toArray(root.querySelectorAll('.service-card'));
+  const titleLines = root.querySelectorAll('.section-heading__title .line-mask__inner');
+
+  gsap.from(titleLines, {
+    yPercent: 110,
+    stagger: 0.12,
+    ease: 'none',
+    scrollTrigger: { trigger: section, start: 'top 85%', end: 'top 25%', scrub: 0.6 },
+  });
+
+  cards.forEach((card, index) => gsap.set(card, { zIndex: index + 1 }));
+
+  const tl = gsap.timeline({
+    defaults: { ease: 'power2.inOut', duration: 1 },
+    scrollTrigger: {
+      trigger: root,
+      start: 'top top',
+      end: '+=200%',
+      pin: true,
+      scrub: 0.8,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  // La première carte se pose pendant l'arrivée de la section, avant l'épinglage
+  gsap.from(cards[0], {
+    yPercent: 40,
+    scale: 0.9,
+    autoAlpha: 0,
+    ease: 'none',
+    scrollTrigger: { trigger: section, start: 'top 75%', end: 'top 5%', scrub: 0.6 },
+  });
+
+  cards.slice(1).forEach((card, i) => {
+    const at = 0.2 + i * 1.1;
+    // Départ sous le bord de l'écran, quelle que soit la hauteur de la fenêtre
+    tl.fromTo(card, { y: () => window.innerHeight, rotation: 3 }, { y: 0, rotation: 0, ease: 'power3.out' }, at);
+
+    // Les cartes déjà posées reculent dans la pile
+    cards.slice(0, i + 1).forEach((previous, j) => {
+      const depth = i + 1 - j;
+      tl.to(previous, { y: -14 * depth, scale: 1 - 0.05 * depth, duration: 1 }, at);
+    });
+  });
+
+  tl.to({}, { duration: 0.4 });
+  return tl;
+}

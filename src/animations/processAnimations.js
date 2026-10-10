@@ -36,10 +36,11 @@ export function createProcessTimeline(root) {
     },
   );
 
-  gsap.from(steps, {
+  // Le contenu glisse ; les pastilles restent alignées sur la ligne du parcours
+  gsap.from(q('.process__number, .process__title, .process__text'), {
     x: 40,
     autoAlpha: 0.25,
-    stagger: 0.15,
+    stagger: 0.05,
     ease: 'none',
     scrollTrigger: { trigger: list, start: 'top 85%', end: 'bottom 70%', scrub: 0.6 },
   });

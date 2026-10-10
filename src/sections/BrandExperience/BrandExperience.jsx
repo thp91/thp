@@ -15,7 +15,7 @@ export default function BrandExperience({ variant = 'flow' }) {
       <p className="brand__label label">La forme devient interface</p>
 
       {isFlow && (
-        <div className="brand__visual" data-reveal="logo">
+        <div className="brand__visual">
           <Logo decorative />
         </div>
       )}

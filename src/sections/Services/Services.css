@@ -75,8 +75,8 @@
   }
 }
 
-/* Scène épinglée : la hauteur de section correspond à la fenêtre */
-@media (min-width: 1100px) and (min-height: 620px) and (prefers-reduced-motion: no-preference) {
+/* Scènes épinglées (animations autorisées) : la section occupe la fenêtre */
+@media (prefers-reduced-motion: no-preference) {
   .services {
     padding-block: 0;
   }
@@ -91,5 +91,34 @@
 
   .services__list {
     position: relative;
+  }
+
+  /* Portrait : les cartes forment une pile qui se constitue au défilement */
+  @media not all and (min-aspect-ratio: 1/1) and (min-width: 900px) and (min-height: 500px) {
+    .services__viewport {
+      align-items: flex-start;
+      padding-block: calc(var(--header-height) + 1.5rem) 2rem;
+    }
+
+    .services__inner {
+      gap: 2rem;
+    }
+
+    .services .section-heading__title {
+      font-size: clamp(2.5rem, 11vw, 4.5rem);
+    }
+
+    .services__list {
+      display: block;
+      height: clamp(18rem, 44svh, 24rem);
+      margin-top: 1.5rem;
+    }
+
+    .service-card {
+      position: absolute;
+      inset: 0;
+      min-height: 0;
+      transform-origin: 50% 0%;
+    }
   }
 }

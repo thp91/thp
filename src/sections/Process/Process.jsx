@@ -1,10 +1,9 @@
 import { useRef } from 'react';
-import { gsap, MOTION_QUERIES, useGSAP } from '../../lib/gsap';
+import { addLayoutAnimation, gsap, LAYOUT_QUERIES, useGSAP } from '../../lib/gsap';
 import { PROCESS_STEPS } from '../../data/process';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import FAQ from '../FAQ/FAQ';
 import { createProcessTimeline } from '../../animations/processAnimations';
-import { revealFade, revealLines } from '../../animations/reveal';
 import './Process.css';
 
 /** Scène 08 — Comment se passe un projet ? + FAQ. */
@@ -16,17 +15,9 @@ export default function Process() {
       const mm = gsap.matchMedia();
       const q = gsap.utils.selector(rootRef.current);
 
-      mm.add(MOTION_QUERIES.motion, () => createProcessTimeline(rootRef.current));
-      mm.add(MOTION_QUERIES.light, () => {
-        revealLines(q('.section-heading__title .line-mask__inner'), rootRef.current);
-        q('.process__step').forEach((step) => {
-          revealFade(step, step, {
-            onComplete: () => step.classList.add('process__step--active'),
-          });
-        });
-        revealFade(q('.faq'), q('.faq')[0]);
-      });
-      mm.add(MOTION_QUERIES.reduce, () => {
+      const animate = () => createProcessTimeline(rootRef.current);
+      addLayoutAnimation(mm, { wide: animate, narrow: animate });
+      mm.add(LAYOUT_QUERIES.reduce, () => {
         q('.process__step').forEach((step) => step.classList.add('process__step--active'));
       });
 

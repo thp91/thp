@@ -45,7 +45,9 @@ export function addBuildScene(tl, { q, pieces, cardPiece, states }, start) {
   return start + 1.6; // incluant un court temps de pause sur la grille
 }
 
-export function addRevealScene(tl, { q, pieces, cardPiece, states }, start) {
+export function addRevealScene(tl, { q, pieces, cardPiece, states, layout }, start) {
+  const frameRadius = `${Math.round((16 * layout.browser.width) / 741)}px`;
+
   tl.to(q('.builder__label, .builder__title, .builder__text, .builder__actions'), {
     y: -60,
     autoAlpha: 0,
@@ -63,8 +65,8 @@ export function addRevealScene(tl, { q, pieces, cardPiece, states }, start) {
   // Le cadre du navigateur se déploie…
   tl.fromTo(
     q('.story__browser .browser-mockup__frame'),
-    { clipPath: 'inset(0% 0% 100% 0% round 16px)' },
-    { clipPath: 'inset(0% 0% 0% 0% round 16px)', duration: 0.6, ease: 'power3.inOut' },
+    { clipPath: `inset(0% 0% 100% 0% round ${frameRadius})` },
+    { clipPath: `inset(0% 0% 0% 0% round ${frameRadius})`, duration: 0.6, ease: 'power3.inOut' },
     start + 0.3,
   );
 
@@ -93,24 +95,30 @@ export function addRevealScene(tl, { q, pieces, cardPiece, states }, start) {
   return start + 1.7;
 }
 
-export function addResponsiveScene(tl, { q }, start) {
+export function addResponsiveScene(tl, { q, layout }, start) {
   const device = q('.story__browser');
+  const { zoom, shrink, phoneFrom, hideOnPhone } = layout.responsive;
+  const dimmed = q('.preview__title, .preview__text, .preview__label');
+  const restored = hideOnPhone ? dimmed.filter((element) => !element.matches(hideOnPhone)) : dimmed;
 
   // Zoom maîtrisé : le site vient au centre de l'attention
-  tl.to(device, { x: -170, y: -10, scale: 1.12, duration: 0.6, ease: 'power2.inOut' }, start)
-    .to(q('.preview__title, .preview__text, .preview__label'), { autoAlpha: 0.12, duration: 0.4 }, start);
+  tl.to(device, { ...zoom, duration: 0.6, ease: 'power2.inOut' }, start)
+    .to(dimmed, { autoAlpha: 0.12, duration: 0.4 }, start);
 
   // Le navigateur se resserre et devient un téléphone
-  tl.to(device, { x: 120, y: 30, scale: 0.42, autoAlpha: 0, duration: 0.6, ease: 'power3.inOut' }, start + 0.75)
+  tl.to(device, { ...shrink, autoAlpha: 0, duration: 0.6, ease: 'power3.inOut' }, start + 0.75)
     .fromTo(
       q('.story__phone'),
-      { autoAlpha: 0, scale: 1.45, y: 40 },
+      { autoAlpha: 0, ...phoneFrom },
       { autoAlpha: 1, scale: 1, y: 0, duration: 0.6, ease: 'power3.inOut' },
       start + 0.85,
     )
-    .to(q('.preview__title, .preview__text, .preview__label'), { autoAlpha: 1, duration: 0.4 }, start + 1.1)
+    .to(restored, { autoAlpha: 1, duration: 0.4 }, start + 1.1)
     .to(q('.preview__caption-item--desktop'), { autoAlpha: 0, y: -16, duration: 0.3 }, start + 1.05)
     .fromTo(q('.preview__caption-item--mobile'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.3 }, start + 1.15);
+
+  // En portrait, le téléphone occupe la place du paragraphe
+  if (hideOnPhone) tl.to(q(hideOnPhone), { autoAlpha: 0, duration: 0.3 }, start + 1.15);
 
   return start + 1.8;
 }

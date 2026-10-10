@@ -1,10 +1,9 @@
 import { useRef } from 'react';
-import { gsap, MOTION_QUERIES, useGSAP } from '../../lib/gsap';
+import { addLayoutAnimation, gsap, useGSAP } from '../../lib/gsap';
 import { PROJECTS } from '../../data/projects';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import { createProjectsTimeline } from '../../animations/projectAnimations';
-import { revealFade, revealLines } from '../../animations/reveal';
 import './Projects.css';
 
 /** Scène 07 — Projets et réalisations. */
@@ -14,13 +13,8 @@ export default function Projects() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      const q = gsap.utils.selector(rootRef.current);
-
-      mm.add(MOTION_QUERIES.motion, () => createProjectsTimeline(rootRef.current));
-      mm.add(MOTION_QUERIES.light, () => {
-        revealLines(q('.section-heading__title .line-mask__inner'), rootRef.current);
-        q('.projects__slide').forEach((slide) => revealFade(slide, slide));
-      });
+      const animate = () => createProjectsTimeline(rootRef.current);
+      addLayoutAnimation(mm, { wide: animate, narrow: animate });
 
       return () => mm.revert();
     },

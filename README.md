@@ -43,25 +43,25 @@ src/
 └── styles/              reset, variables (tokens), typographie, global
 ```
 
-### Trois modes d'animation (`src/lib/gsap.js`)
+### Deux compositions animées, mêmes scènes (`src/lib/gsap.js`)
 
-- **motion** — desktop ≥ 1100 × 620 px, animations autorisées : scènes épinglées complètes.
-- **light** — tablette / mobile : sections classiques, révélations légères, aucun long `pin`.
-- **reduce** — `prefers-reduced-motion` : tout le contenu est affiché directement, curseur natif, sans Lenis.
+- **Paysage** (`wide` : ratio ≥ 1, largeur ≥ 900 px, hauteur ≥ 500 px) — repère Figma 1440 × 900.
+- **Portrait** (mobile, tablette verticale) — repère dédié 390 × 700 (`STORY_LAYOUTS.portrait` dans `src/animations/storyGeometry.js`) : compositions recomposées pour l'écran vertical, pas une réduction du desktop.
+- **Animations réduites** (`prefers-reduced-motion`) : sections classiques, contenu affiché directement, curseur natif, sans Lenis.
 
 ## Récapitulatif des animations
 
-| Scène | Desktop (motion) | Mobile / tablette |
+| Scène | Paysage | Portrait (mobile) |
 | --- | --- | --- |
-| 01 Entrée | Intro ≈ 1,3 s : chaque lettre du logo se découvre par masque dans le sens de sa courbe, titre ligne par ligne, bouton. Les formes suivent légèrement le pointeur. | Même intro, logo en image |
-| 02 Logo → expérience | Scène épinglée : fond qui passe au noir, logo agrandi (Figma 10:12), puis le T s'écarte, le H s'ouvre, le P grandit ; DESIGN × CODE arrive par les côtés. | Révélation du logo par masque |
-| 03 Construction | Chaque forme du logo rejoint une case de la grille 5 × 5 et devient un bloc ; les 19 autres tuiles apparaissent. | Tuiles qui apparaissent en cascade |
-| 04 Le site prend vie | Les blocs se placent dans un vrai navigateur : barre du T → en-tête, H → bloc héros et carte, P → bouton d'action. Le relais avec les vrais composants se fait au pixel près. Zoom, puis le navigateur devient un téléphone. | Navigateur + téléphone révélés |
-| 05 Prestations | Section épinglée : la carte au premier plan occupe l'écran, se range pendant que la suivante prend sa place. | Cartes empilées |
-| 06 À propos | Axe vertical qui se dessine ; chaque agence arrive en contour puis se remplit en s'alignant. | Apparitions simples |
-| 07 Projets | Séquence horizontale épinglée : échelle des cartes, titre et fiche qui se repositionnent, numéro en arrière-plan en parallaxe, teinte du fond propre à chaque projet. | Liste verticale |
-| 08 Processus + FAQ | Ligne du parcours dessinée au scroll ; chaque étape s'active et son glyphe évolue (contour → esquisse → bloc → en ligne). FAQ accessible, ouverture discrète. | Étapes révélées et activées |
-| 09 Contact | Mots qui prennent leur place, logo qui réapparaît, ligne qui souligne le CTA, courbes du H qui remontent. | Apparitions simples |
+| 01 Entrée | Intro ≈ 1,3 s : chaque lettre du logo se découvre par masque dans le sens de sa courbe, titre ligne par ligne, bouton. Les formes suivent légèrement le pointeur. | Même intro, composition verticale |
+| 02 Logo → expérience | Scène épinglée : fond qui passe au noir, logo agrandi (Figma 10:12), puis le T s'écarte, le H s'ouvre, le P grandit ; DESIGN × CODE arrive par les côtés. | Même scène épinglée : les lettres se réorganisent en colonne, en zigzag autour de DESIGN et × CODE |
+| 03 Construction | Chaque forme du logo rejoint une case de la grille 5 × 5 et devient un bloc ; les 19 autres tuiles apparaissent. | Même transformation, grille 5 × 5 compacte |
+| 04 Le site prend vie | Les blocs se placent dans un vrai navigateur : barre du T → en-tête, H → bloc héros et carte, P → bouton d'action. Le relais avec les vrais composants se fait au pixel près. Zoom, puis le navigateur devient un téléphone. | Même construction du navigateur, puis passage au téléphone |
+| 05 Prestations | Section épinglée : la carte au premier plan occupe l'écran, se range pendant que la suivante prend sa place. | Section épinglée : les cartes arrivent une à une et forment une pile |
+| 06 À propos | Axe vertical qui se dessine ; chaque agence arrive en contour puis se remplit en s'alignant. | Identique |
+| 07 Projets | Séquence horizontale épinglée : échelle des cartes, titre et fiche qui se repositionnent, numéro en arrière-plan en parallaxe, teinte du fond propre à chaque projet. | Identique, cartes au format mobile |
+| 08 Processus + FAQ | Ligne du parcours dessinée au scroll ; chaque étape s'active et son glyphe évolue (contour → esquisse → bloc → en ligne). FAQ accessible, ouverture discrète. | Identique |
+| 09 Contact | Mots qui prennent leur place, logo qui réapparaît, ligne qui souligne le CTA, courbes du H qui remontent. | Identique |
 
 Transverse : curseur personnalisé (pointeur précis uniquement, « VOIR » sur les projets ayant un lien, contraste automatique), boutons magnétiques avec remplissage, soulignement dynamique de la navigation, en-tête qui se masque au scroll et s'adapte aux fonds sombres, indicateur `0X / 09` + barre de progression.
 

@@ -93,3 +93,40 @@
 .brand--flow .brand__hint {
   display: none;
 }
+
+/* ---------- Calque de scène, composition portrait : les mots se glissent entre les lettres ---------- */
+.story--portrait .brand--stage .brand__label {
+  top: 84px;
+  left: 20px;
+  font-size: 11px;
+}
+
+.story--portrait .brand--stage .brand__title {
+  top: 0;
+  left: 0;
+  width: 390px;
+  height: 700px;
+  font-size: 44px;
+}
+
+.story--portrait .brand--stage .brand__word--design {
+  position: absolute;
+  top: 306px;
+  left: 24px;
+}
+
+.story--portrait .brand--stage .brand__word--code {
+  top: 512px;
+  left: 178px;
+}
+
+.story--portrait .brand--stage .brand__text {
+  top: 630px;
+  left: 24px;
+  width: 340px;
+  font-size: 16px;
+}
+
+.story--portrait .brand--stage .brand__hint {
+  display: none;
+}

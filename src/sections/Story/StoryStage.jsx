@@ -13,11 +13,9 @@ import WebsitePreview from '../WebsitePreview/WebsitePreview';
 import { createHeroIntro, bindLogoPointer } from '../../animations/heroAnimations';
 import { addBrandScene } from '../../animations/brandAnimations';
 import { addBuildScene, addRevealScene, addResponsiveScene } from '../../animations/websiteAnimations';
-import { getPieceStates } from '../../animations/storyGeometry';
+import { getPieceStates, STORY_LAYOUTS } from '../../animations/storyGeometry';
 import './Story.css';
 
-const DESIGN_WIDTH = 1440;
-const DESIGN_HEIGHT = 900;
 const PARALLAX_DEPTH = { 't-bar': 14, 't-stem': 10, 'h-left': -12, 'h-right': -16, p: 22 };
 
 /** Seuils (en temps de timeline) des scènes et du thème de l'en-tête. */
@@ -28,26 +26,33 @@ const SCENE_MARKERS = [
   { at: 3.3, scene: 4, theme: 'light' },
 ];
 
-export default function StoryStage() {
+/**
+ * Scène épinglée des scènes 01 à 04.
+ * `layout` : 'landscape' (repère Figma 1440 × 900) ou 'portrait' (repère mobile 390 × 700).
+ */
+export default function StoryStage({ layout: layoutName }) {
   const rootRef = useRef(null);
+  const layout = STORY_LAYOUTS[layoutName];
 
-  // Mise à l'échelle du repère 1440 × 900 pour tenir dans la fenêtre
+  // Mise à l'échelle du repère pour tenir dans la fenêtre.
+  // La hauteur de référence est 100svh (stable quand la barre d'adresse mobile se replie).
   useEffect(() => {
     const root = rootRef.current;
+    const probe = root.querySelector('.story__probe');
     const fit = () => {
-      const scale = Math.min(window.innerWidth / DESIGN_WIDTH, window.innerHeight / DESIGN_HEIGHT);
+      const scale = Math.min(window.innerWidth / layout.size.width, probe.offsetHeight / layout.size.height);
       root.style.setProperty('--stage-scale', scale.toFixed(4));
     };
     fit();
     window.addEventListener('resize', fit);
     return () => window.removeEventListener('resize', fit);
-  }, []);
+  }, [layout]);
 
   useGSAP(
     () => {
       const root = rootRef.current;
       const q = gsap.utils.selector(root);
-      const states = getPieceStates();
+      const states = getPieceStates(layout);
       const pieces = LOGO_PIECES.map(({ id }) => ({ id, element: root.querySelector(`[data-piece-id="${id}"]`) }));
       const cardPiece = root.querySelector('[data-piece-id="card"]');
 
@@ -94,7 +99,7 @@ export default function StoryStage() {
         if (intro.isActive() && tl.progress() > 0.01) intro.progress(1);
       });
 
-      const ctx = { q, pieces, cardPiece, states };
+      const ctx = { q, pieces, cardPiece, states, layout };
       let time = addBrandScene(tl, ctx);
       time = addBuildScene(tl, ctx, time);
       time = addRevealScene(tl, ctx, time);
@@ -104,11 +109,12 @@ export default function StoryStage() {
       const unbindPointer = window.matchMedia('(pointer: fine)').matches ? bindLogoPointer(root) : null;
       return () => unbindPointer?.();
     },
-    { scope: rootRef },
+    { scope: rootRef, dependencies: [layout] },
   );
 
   return (
-    <section ref={rootRef} className="story" id="top" aria-label="Présentation">
+    <section ref={rootRef} className={`story story--${layoutName}`} id="top" aria-label="Présentation">
+      <span className="story__probe" aria-hidden="true" />
       <div className="story__viewport">
         <div className="story__night" aria-hidden="true" />
         <div className="story__canvas">

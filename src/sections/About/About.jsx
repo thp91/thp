@@ -1,9 +1,8 @@
 import { useRef } from 'react';
-import { gsap, MOTION_QUERIES, useGSAP } from '../../lib/gsap';
+import { addLayoutAnimation, gsap, useGSAP } from '../../lib/gsap';
 import { EXPERIENCES } from '../../data/experience';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { createAboutTimeline } from '../../animations/aboutAnimations';
-import { revealFade, revealLines } from '../../animations/reveal';
 import './About.css';
 
 /** Scène 06 — Qui va créer mon site ? */
@@ -13,14 +12,8 @@ export default function About() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      const q = gsap.utils.selector(rootRef.current);
-
-      mm.add(MOTION_QUERIES.motion, () => createAboutTimeline(rootRef.current));
-      mm.add(MOTION_QUERIES.light, () => {
-        revealLines(q('.section-heading__title .line-mask__inner'), rootRef.current);
-        revealFade(q('.about__intro p'), q('.about__intro')[0]);
-        q('.about__item').forEach((item) => revealFade(item, item));
-      });
+      const animate = () => createAboutTimeline(rootRef.current);
+      addLayoutAnimation(mm, { wide: animate, narrow: animate });
 
       return () => mm.revert();
     },

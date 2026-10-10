@@ -97,3 +97,31 @@
     gap: 2rem;
   }
 }
+
+/* ---------- Calque de scène, composition portrait ---------- */
+.story--portrait .preview--stage .preview__label {
+  top: 84px;
+  left: 20px;
+  width: 350px;
+  font-size: 11px;
+}
+
+.story--portrait .preview--stage .preview__title {
+  top: 108px;
+  left: 18px;
+  font-size: 52px;
+}
+
+.story--portrait .preview--stage .preview__text {
+  top: 234px;
+  left: 20px;
+  width: 350px;
+  font-size: 16px;
+}
+
+.story--portrait .preview--stage .preview__caption {
+  top: 650px;
+  left: 20px;
+  width: 350px;
+  font-size: 13px;
+}

@@ -1,4 +1,5 @@
 .process {
+  overflow-x: clip; /* les étapes arrivent depuis la droite */
   padding-block: var(--section-space);
 }
 

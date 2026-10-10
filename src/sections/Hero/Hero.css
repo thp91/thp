@@ -196,3 +196,69 @@
 .hero__hint-text {
   display: inline-block;
 }
+
+/* ---------- Calque de scène, composition portrait (repère 390 × 700) ---------- */
+.story--portrait .hero--stage .hero__label {
+  top: 84px;
+  left: 20px;
+  width: 300px;
+  font-size: 11px;
+}
+
+.story--portrait .hero--stage .hero__title {
+  top: 108px;
+  left: 18px;
+  width: 354px;
+  font-size: 52px;
+}
+
+.story--portrait .hero--stage .hero__lead {
+  top: 292px;
+  left: 20px;
+  width: 350px;
+  font-size: 17px;
+}
+
+.story--portrait .hero--stage .hero__actions {
+  top: 384px;
+  left: 20px;
+}
+
+.story--portrait .hero--stage .hero__stat {
+  top: 604px;
+  left: 20px;
+  gap: 2px;
+}
+
+.story--portrait .hero--stage .hero__stat-value {
+  font-size: 34px;
+}
+
+.story--portrait .hero--stage .hero__stat-text {
+  font-size: 13px;
+}
+
+.story--portrait .hero--stage .hero__accent--lavender {
+  top: 618px;
+  left: 300px;
+  width: 22px;
+  height: 22px;
+}
+
+.story--portrait .hero--stage .hero__accent--coral {
+  top: 92px;
+  left: 350px;
+  width: 16px;
+  height: 16px;
+}
+
+.story--portrait .hero--stage .hero__accent--ink {
+  top: 660px;
+  left: 352px;
+  width: 14px;
+  height: 14px;
+}
+
+.story--portrait .hero--stage .hero__hint {
+  display: none;
+}

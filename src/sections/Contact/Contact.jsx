@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { gsap, MOTION_QUERIES, useGSAP } from '../../lib/gsap';
+import { addLayoutAnimation, gsap, useGSAP } from '../../lib/gsap';
 import { CONTACT } from '../../data/site';
 import { LOGO_PIECES } from '../../assets/logos/thpLetters';
 import Logo from '../../components/Logo/Logo';
@@ -7,7 +7,6 @@ import LogoPiece from '../../components/LogoPiece/LogoPiece';
 import MagneticButton from '../../components/MagneticButton/MagneticButton';
 import Footer from '../../components/Footer/Footer';
 import { createContactTimeline } from '../../animations/contactAnimations';
-import { revealFade } from '../../animations/reveal';
 import './Contact.css';
 
 const TITLE_LINES = [['Votre', 'prochain'], ['site', 'commence'], ['ici.']];
@@ -32,13 +31,8 @@ export default function Contact() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      const q = gsap.utils.selector(rootRef.current);
-
-      mm.add(MOTION_QUERIES.motion, () => createContactTimeline(rootRef.current));
-      mm.add(MOTION_QUERIES.light, () => {
-        revealFade(q('.contact__word'), rootRef.current, { stagger: 0.05 });
-        revealFade(q('.contact__cta, .contact__form'), q('.contact__cta')[0]);
-      });
+      const animate = () => createContactTimeline(rootRef.current);
+      addLayoutAnimation(mm, { wide: animate, narrow: animate });
 
       return () => mm.revert();
     },
