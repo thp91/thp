@@ -20,14 +20,15 @@
 
 .builder--stage .builder__title {
   position: absolute;
-  top: 196px;
+  top: 188px;
   left: 56px;
-  font-size: 104px;
+  width: 730px; /* reste à gauche de la grille (x = 825) */
+  font-size: 84px;
 }
 
 .builder--stage .builder__text {
   position: absolute;
-  top: 456px;
+  top: 486px;
   left: 65px;
   width: 560px;
   font-size: 23px;

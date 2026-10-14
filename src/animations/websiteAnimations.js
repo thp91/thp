@@ -109,8 +109,6 @@ export function addResponsiveScene(tl, { q, layout, pieces, cardPiece, measure }
   const device = q('.story__browser');
   const morph = q('.story__morph')[0];
   const phone = q('.story__phone');
-  const dimmed = q('.preview__title, .preview__text, .preview__label');
-  const restored = hideOnPhone ? dimmed.filter((element) => !element.matches(hideOnPhone)) : dimmed;
 
   const piece = (id) => (id === 'card' ? cardPiece : pieces.find((item) => item.id === id).element);
   const TARGETS = {
@@ -134,8 +132,7 @@ export function addResponsiveScene(tl, { q, layout, pieces, cardPiece, measure }
   const screen = measure('.story__phone [data-phone="screen"]');
 
   // 1. Les textes du site desktop s'effacent : il ne reste que sa structure
-  tl.to(dimmed, { autoAlpha: 0.25, duration: 0.3 }, start)
-    .to(q('.story__browser .browser-mockup__content, .story__browser .browser-mockup__dot'), { autoAlpha: 0, duration: 0.25, stagger: 0.01 }, start);
+  tl.to(q('.story__browser .browser-mockup__content, .story__browser .browser-mockup__dot'), { autoAlpha: 0, duration: 0.25, stagger: 0.01 }, start);
 
   // 2. Relais invisible : les blocs animés reprennent la place exacte du navigateur
   const swapAt = start + 0.3;
@@ -157,12 +154,30 @@ export function addResponsiveScene(tl, { q, layout, pieces, cardPiece, measure }
     );
   });
 
+  // Pendant la recomposition, le titre se réécrit : « Visible. Mémorable. » → « Adapté. Partout. »
+  q('.preview__line').forEach((line, index) => {
+    const at = moveAt + 0.15 + index * 0.12;
+    tl.to(line.querySelectorAll('.preview__word--from .preview__char'), {
+      yPercent: -110,
+      rotation: -8,
+      stagger: 0.025,
+      duration: 0.35,
+      ease: 'power2.in',
+    }, at)
+      .set(line.querySelector('.preview__word--to'), { visibility: 'visible' }, at)
+      .fromTo(
+        line.querySelectorAll('.preview__word--to .preview__char'),
+        { yPercent: 110, rotation: 8 },
+        { yPercent: 0, rotation: 0, stagger: 0.025, duration: 0.4, ease: 'power3.out' },
+        at + 0.3,
+      );
+  });
+
   // 4. Le téléphone prend le relais et ses contenus s'installent
   const doneAt = moveAt + 1.05;
   tl.set(phone, { autoAlpha: 1 }, doneAt)
     .set([morph, ...Object.keys(TARGETS).map(piece)], { autoAlpha: 0 }, doneAt)
     .from(q('.story__phone [data-phone-text]'), { y: 10, autoAlpha: 0, duration: 0.3, stagger: 0.04, ease: 'power2.out' }, doneAt)
-    .to(restored, { autoAlpha: 1, duration: 0.4 }, doneAt)
     .to(q('.preview__caption-item--desktop'), { autoAlpha: 0, y: -16, duration: 0.3 }, doneAt - 0.1)
     .fromTo(q('.preview__caption-item--mobile'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.3 }, doneAt);
 

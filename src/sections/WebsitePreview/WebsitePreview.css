@@ -6,6 +6,31 @@
   font-weight: var(--font-weight-bold);
 }
 
+/* Titre : deux mots superposés par ligne ; le second remplace le premier lettre par lettre */
+.preview__line .line-mask__inner {
+  position: relative;
+}
+
+.preview__word {
+  display: block;
+  white-space: nowrap;
+}
+
+.preview__word--to {
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+}
+
+.preview__word--accent {
+  color: var(--color-lavender-ink);
+}
+
+.preview__char {
+  display: inline-block;
+}
+
 .preview__caption {
   position: relative;
   font-size: 1rem;
