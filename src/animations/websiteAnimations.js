@@ -95,30 +95,42 @@ export function addRevealScene(tl, { q, pieces, cardPiece, states, layout }, sta
   return start + 1.7;
 }
 
-export function addResponsiveScene(tl, { q, layout }, start) {
+export function addResponsiveScene(tl, { q, layout, morphStates }, start) {
   const device = q('.story__browser');
-  const { zoom, shrink, phoneFrom, hideOnPhone } = layout.responsive;
+  const morph = q('.story__morph');
+  const phone = q('.story__phone');
+  const { zoom, hideOnPhone } = layout.responsive;
   const dimmed = q('.preview__title, .preview__text, .preview__label');
   const restored = hideOnPhone ? dimmed.filter((element) => !element.matches(hideOnPhone)) : dimmed;
+  const { start: from, end: to, clipStart, clipEnd } = morphStates;
 
-  // Zoom maîtrisé : le site vient au centre de l'attention
+  // 1. Zoom maîtrisé : le site vient au centre de l'attention
   tl.to(device, { ...zoom, duration: 0.6, ease: 'power2.inOut' }, start)
     .to(dimmed, { autoAlpha: 0.12, duration: 0.4 }, start);
 
-  // Le navigateur se resserre et devient un téléphone
-  tl.to(device, { ...shrink, autoAlpha: 0, duration: 0.6, ease: 'power3.inOut' }, start + 0.75)
-    .fromTo(
-      q('.story__phone'),
-      { autoAlpha: 0, ...phoneFrom },
-      { autoAlpha: 1, scale: 1, y: 0, duration: 0.6, ease: 'power3.inOut' },
-      start + 0.85,
-    )
-    .to(restored, { autoAlpha: 1, duration: 0.4 }, start + 1.1)
-    .to(q('.preview__caption-item--desktop'), { autoAlpha: 0, y: -16, duration: 0.3 }, start + 1.05)
-    .fromTo(q('.preview__caption-item--mobile'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.3 }, start + 1.15);
+  // 2. La fenêtre se redimensionne comme un vrai navigateur : le cadre se resserre
+  //    et rogne le site desktop sur ses bords…
+  const resizeAt = start + 0.75;
+  tl.set(morph, { ...from, autoAlpha: 1 }, resizeAt)
+    .fromTo(device, { clipPath: clipStart }, { clipPath: clipEnd, duration: 0.8, ease: 'power3.inOut' }, resizeAt)
+    .to(morph, { ...to, duration: 0.8, ease: 'power3.inOut' }, resizeAt)
+    // …puis le site se recompose pour le mobile et le cadre devient la coque du téléphone
+    .to(device, { autoAlpha: 0, duration: 0.15 }, resizeAt + 0.75)
+    .to(morph, { backgroundColor: '#1e1e1f', duration: 0.15 }, resizeAt + 0.75)
+    .set(phone, { autoAlpha: 1 }, resizeAt + 0.9)
+    .set(morph, { autoAlpha: 0 }, resizeAt + 0.9)
+    .from(
+      q('.story__phone .phone-mockup__notch, .story__phone .phone-mockup__header, .story__phone .phone-mockup__hero, .story__phone .phone-mockup__card'),
+      { y: 16, autoAlpha: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' },
+      resizeAt + 0.9,
+    );
+
+  tl.to(restored, { autoAlpha: 1, duration: 0.4 }, start + 1.3)
+    .to(q('.preview__caption-item--desktop'), { autoAlpha: 0, y: -16, duration: 0.3 }, start + 1.25)
+    .fromTo(q('.preview__caption-item--mobile'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.3 }, start + 1.35);
 
   // En portrait, le téléphone occupe la place du paragraphe
-  if (hideOnPhone) tl.to(q(hideOnPhone), { autoAlpha: 0, duration: 0.3 }, start + 1.15);
+  if (hideOnPhone) tl.to(q(hideOnPhone), { autoAlpha: 0, duration: 0.3 }, start + 1.3);
 
-  return start + 1.8;
+  return start + 2;
 }

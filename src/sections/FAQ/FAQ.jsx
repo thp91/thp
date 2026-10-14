@@ -9,9 +9,19 @@ export default function FAQ() {
 
   return (
     <div className="faq">
-      <h3 className="faq__title label">Les questions que vous vous posez</h3>
+      <div className="faq__intro">
+        <p className="faq__label label">Questions fréquentes</p>
+        <h3 className="faq__title">Les questions que vous vous posez.</h3>
+        <p className="faq__more">
+          Une autre question ?{' '}
+          <a className="faq__more-link" href="#contact" data-cursor="link">
+            Écrivez-moi
+          </a>
+          .
+        </p>
+      </div>
       <ul className="faq__list">
-        {FAQ_ITEMS.map((item) => {
+        {FAQ_ITEMS.map((item, index) => {
           const isOpen = openId === item.id;
           const buttonId = `${baseId}-${item.id}-button`;
           const panelId = `${baseId}-${item.id}-panel`;
@@ -26,7 +36,8 @@ export default function FAQ() {
                   aria-controls={panelId}
                   onClick={() => setOpenId(isOpen ? null : item.id)}
                 >
-                  <span>{item.question}</span>
+                  <span className="faq__index label">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="faq__question-text">{item.question}</span>
                   <span className="faq__icon" aria-hidden="true" />
                 </button>
               </h4>

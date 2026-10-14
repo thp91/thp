@@ -67,6 +67,17 @@
   clip-path: inset(0% 0% 100% 0% round 16px);
 }
 
+/* Cadre intermédiaire du redimensionnement navigateur → téléphone */
+.story__morph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 1px var(--color-line);
+  opacity: 0;
+  visibility: hidden;
+}
+
 .story__phone {
   position: absolute;
   top: 140px;

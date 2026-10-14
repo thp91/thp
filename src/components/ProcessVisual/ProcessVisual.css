@@ -1,0 +1,252 @@
+/* Cotes en cqw : l'illustration garde ses proportions */
+.process-visual {
+  container-type: inline-size;
+  width: 100%;
+}
+
+.process-visual__frame {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 3cqw;
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 1px var(--color-line);
+}
+
+.process-visual__frame * {
+  display: block;
+}
+
+/* ---------- 4. Navigateur ---------- */
+.process-visual__chrome {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 1.6cqw;
+  height: 8cqw;
+  padding-left: 3cqw;
+  background-color: var(--color-ink);
+}
+
+.process-visual__dot {
+  width: 1.8cqw;
+  height: 1.8cqw;
+  border-radius: 50%;
+  background-color: var(--color-coral);
+}
+
+.process-visual__dot:nth-child(2) {
+  background-color: var(--color-lavender);
+}
+
+.process-visual__dot:nth-child(3) {
+  background-color: var(--color-cream);
+}
+
+.process-visual__address {
+  margin-left: 3cqw;
+  padding: 0.9cqw 3cqw;
+  border-radius: 3cqw;
+  background-color: #2c2c2e;
+  color: var(--color-muted-dark);
+  font-size: 2cqw;
+}
+
+/* ---------- 2 & 3. Maquette puis blocs ---------- */
+.process-visual__layout {
+  position: absolute;
+  inset: 13cqw 5cqw 5cqw;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 5cqw 1fr 14cqw;
+  gap: 2.5cqw;
+}
+
+.process-visual__zone {
+  position: relative;
+}
+
+.process-visual__zone--header {
+  grid-column: 1 / -1;
+}
+
+.process-visual__zone--hero {
+  grid-column: 1 / -1;
+}
+
+.process-visual__outline,
+.process-visual__fill {
+  position: absolute;
+  inset: 0;
+  border-radius: 1.6cqw;
+}
+
+.process-visual__outline {
+  border: 0.35cqw dashed rgba(30, 30, 31, 0.35);
+}
+
+.process-visual__fill--header {
+  background-color: var(--color-ink);
+}
+
+.process-visual__fill--hero {
+  background-color: var(--color-lavender);
+}
+
+.process-visual__fill--card-a {
+  background-color: var(--color-ink);
+}
+
+.process-visual__fill--card-b {
+  background-color: var(--color-lavender);
+}
+
+.process-visual__fill--card-c {
+  background-color: var(--color-coral);
+}
+
+/* ---------- 1. Échange ---------- */
+.process-visual__bubble {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  border-radius: 4cqw;
+}
+
+.process-visual__bubble--client {
+  top: 24cqw;
+  left: 10cqw;
+  gap: 1.6cqw;
+  padding: 3cqw 4cqw;
+  border-bottom-left-radius: 0.8cqw;
+  background-color: var(--color-ink);
+}
+
+.process-visual__typing {
+  width: 2.4cqw;
+  height: 2.4cqw;
+  border-radius: 50%;
+  background-color: var(--color-cream);
+}
+
+.process-visual__bubble--me {
+  top: 40cqw;
+  right: 10cqw;
+  flex-direction: column;
+  gap: 1.6cqw;
+  width: 40cqw;
+  padding: 3.4cqw 4cqw;
+  border-bottom-right-radius: 0.8cqw;
+  background-color: var(--color-lavender);
+}
+
+.process-visual__bar {
+  height: 2cqw;
+  border-radius: 1cqw;
+  background-color: var(--color-ink);
+  opacity: 0.75;
+}
+
+.process-visual__bar--short {
+  width: 60%;
+}
+
+.process-visual__swatches {
+  position: absolute;
+  right: 6cqw;
+  bottom: 7cqw;
+  z-index: 3;
+  display: flex;
+  gap: 1.4cqw;
+  padding: 1.4cqw;
+  border-radius: 4cqw;
+  background-color: var(--color-white);
+  box-shadow: 0 0 0 1px var(--color-line);
+}
+
+.process-visual__swatch {
+  width: 5cqw;
+  height: 5cqw;
+  border-radius: 50%;
+}
+
+.process-visual__swatch--ink {
+  background-color: var(--color-ink);
+}
+
+.process-visual__swatch--lavender {
+  background-color: var(--color-lavender);
+}
+
+.process-visual__swatch--coral {
+  background-color: var(--color-coral);
+}
+
+.process-visual__code {
+  position: absolute;
+  top: 28cqw;
+  left: 50%;
+  z-index: 3;
+  padding: 2cqw 3.4cqw;
+  border-radius: 2cqw;
+  background-color: var(--color-ink);
+  color: var(--color-coral);
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 5cqw;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  transform: translateX(-50%);
+}
+
+.process-visual__live {
+  position: absolute;
+  top: 2cqw;
+  right: 3cqw;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 1.4cqw;
+  padding: 1cqw 2.2cqw;
+  border-radius: 3cqw;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-size: 2cqw;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+}
+
+.process-visual__pulse {
+  width: 1.8cqw;
+  height: 1.8cqw;
+  border-radius: 50%;
+  background-color: #2fb36b;
+  box-shadow: 0 0 0 0.8cqw rgba(47, 179, 107, 0.25);
+}
+
+.process-visual__phone {
+  position: absolute;
+  right: 4cqw;
+  bottom: -6cqw;
+  z-index: 3;
+  width: 18cqw;
+  aspect-ratio: 9 / 18;
+  padding: 1.2cqw;
+  border-radius: 3.4cqw;
+  background-color: var(--color-ink);
+}
+
+.process-visual__phone-screen {
+  height: 100%;
+  border-radius: 2.4cqw;
+  background: linear-gradient(var(--color-lavender) 0 45%, var(--color-white) 45% 60%, var(--color-coral) 60% 72%, var(--color-white) 72%);
+}
+
+/* État final par défaut (sans animation) : on masque l'échange et les outils */
+.process-visual__bubble,
+.process-visual__swatches,
+.process-visual__code,
+.process-visual__outline {
+  opacity: 0;
+}

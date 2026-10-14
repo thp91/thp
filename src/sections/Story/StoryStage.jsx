@@ -13,7 +13,7 @@ import WebsitePreview from '../WebsitePreview/WebsitePreview';
 import { createHeroIntro, bindLogoPointer } from '../../animations/heroAnimations';
 import { addBrandScene } from '../../animations/brandAnimations';
 import { addBuildScene, addRevealScene, addResponsiveScene } from '../../animations/websiteAnimations';
-import { getPieceStates, STORY_LAYOUTS } from '../../animations/storyGeometry';
+import { getMorphStates, getPieceStates, STORY_LAYOUTS } from '../../animations/storyGeometry';
 import './Story.css';
 
 const PARALLAX_DEPTH = { 't-bar': 14, 't-stem': 10, 'h-left': -12, 'h-right': -16, p: 22 };
@@ -63,7 +63,7 @@ export default function StoryStage({ layout: layoutName }) {
       gsap.set(cardPiece.querySelector('.story-piece__block'), { borderRadius: cardRadius });
       gsap.set(q('.brand, .builder, .preview'), { autoAlpha: 1 });
       gsap.set(q('.story__browser .browser-mockup__block, .story__browser .browser-mockup__content'), { autoAlpha: 0 });
-      gsap.set(q('.story__phone'), { autoAlpha: 0 });
+      gsap.set(q('.story__phone, .story__morph'), { autoAlpha: 0 });
       gsap.set(q('.brand__label, .brand__title > *, .brand__text, .brand__hint, .builder__label, .builder__text, .builder__actions, .preview__label, .preview__text, .preview__caption'), { autoAlpha: 0 });
 
       const intro = createHeroIntro(root);
@@ -99,7 +99,7 @@ export default function StoryStage({ layout: layoutName }) {
         if (intro.isActive() && tl.progress() > 0.01) intro.progress(1);
       });
 
-      const ctx = { q, pieces, cardPiece, states, layout };
+      const ctx = { q, pieces, cardPiece, states, layout, morphStates: getMorphStates(layout) };
       let time = addBrandScene(tl, ctx);
       time = addBuildScene(tl, ctx, time);
       time = addRevealScene(tl, ctx, time);
@@ -120,6 +120,7 @@ export default function StoryStage({ layout: layoutName }) {
         <div className="story__canvas">
           <div className="story__visuals" aria-hidden="true">
             <TileGrid className="story__grid" hidePieces />
+            <div className="story__morph" />
             <BrowserMockup className="story__browser" />
             <PhoneMockup className="story__phone" />
 
