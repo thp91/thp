@@ -57,9 +57,9 @@ src/
 | 02 Logo → expérience | Scène épinglée : fond qui passe au noir, logo agrandi (Figma 10:12), puis le T s'écarte, le H s'ouvre, le P grandit ; DESIGN × CODE arrive par les côtés. | Même scène épinglée : les lettres se réorganisent en colonne, en zigzag autour de DESIGN et × CODE |
 | 03 Construction | Chaque forme du logo rejoint une case de la grille 5 × 5 et devient un bloc ; les 19 autres tuiles apparaissent. | Même transformation, grille 5 × 5 compacte |
 | 04 Le site prend vie | Les blocs se placent dans un vrai navigateur : barre du T → en-tête, H → bloc héros et carte, P → bouton d'action. Le relais avec les vrais composants se fait au pixel près. Zoom, puis le navigateur devient un téléphone. | Même construction du navigateur, puis passage au téléphone |
-| 05 Prestations | Section épinglée : la carte au premier plan occupe l'écran, se range pendant que la suivante prend sa place. | Section épinglée : les cartes arrivent une à une et forment une pile |
+| 05 Prestations | Galerie horizontale épinglée (`animations/horizontalGallery.js`) : échelle des visuels, fiche qui glisse en place, numéro en parallaxe, teinte par offre. Chaque esquisse a son micro-scénario : la vitrine se compose, l'évolutif reçoit un nouvel article, l'e-commerce envoie un produit au panier. « Voir des exemples » ouvre le panneau détaillé. | Identique, format mobile |
 | 06 À propos | Axe vertical qui se dessine ; chaque agence arrive en contour puis se remplit en s'alignant. | Identique |
-| 07 Projets | Séquence horizontale épinglée : échelle des cartes, titre et fiche qui se repositionnent, numéro en arrière-plan en parallaxe, teinte du fond propre à chaque projet. | Identique, cartes au format mobile |
+| 07 Projets | Pile de fiches collantes (`position: sticky`, sans épinglage) : le visuel s'ouvre par un masque arrondi, la fiche glisse en place ; la fiche suivante recouvre la précédente, qui recule et s'assombrit ; teinte de fond par projet. | Identique |
 | 08 Processus + FAQ | Ligne du parcours dessinée au scroll ; chaque étape s'active et son glyphe évolue (contour → esquisse → bloc → en ligne). FAQ accessible, ouverture discrète. | Identique |
 | 09 Contact | Mots qui prennent leur place, logo qui réapparaît, ligne qui souligne le CTA, courbes du H qui remontent. | Identique |
 

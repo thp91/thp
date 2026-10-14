@@ -1,0 +1,104 @@
+.service-card {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.service-card__media {
+  perspective: 1200px;
+}
+
+.service-card__body {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+}
+
+.service-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  color: var(--color-muted);
+}
+
+/* Le verbe résume la différence entre les offres : Présenter / Enrichir / Vendre */
+.service-card__verb {
+  padding: 0.3rem 0.65rem;
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+}
+
+.service-card--ink .service-card__verb {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+}
+
+.service-card--lavender .service-card__verb {
+  background-color: var(--color-lavender);
+}
+
+.service-card--coral .service-card__verb {
+  background-color: var(--color-coral);
+}
+
+.service-card__title {
+  font-size: var(--font-size-h3);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.service-card__text {
+  max-width: 30rem;
+  font-size: var(--font-size-lead);
+  line-height: 1.4;
+}
+
+.service-card__ideal {
+  display: grid;
+  gap: 0.2rem;
+  max-width: 30rem;
+  font-size: var(--font-size-small);
+  line-height: 1.45;
+}
+
+.service-card__ideal-label {
+  color: var(--color-muted);
+}
+
+.service-card__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 44px;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.45rem 0.45rem 1.25rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+.service-card__arrow {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background-color: var(--color-coral);
+  color: var(--color-ink);
+  font-size: 1rem;
+  transition: transform var(--duration-medium) var(--ease-out);
+}
+
+.service-card--coral .service-card__arrow {
+  background-color: var(--color-lavender);
+}
+
+@media (hover: hover) {
+  .service-card__toggle:hover .service-card__arrow {
+    transform: rotate(45deg);
+  }
+}

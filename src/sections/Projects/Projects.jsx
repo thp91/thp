@@ -3,19 +3,18 @@ import { addLayoutAnimation, gsap, useGSAP } from '../../lib/gsap';
 import { PROJECTS } from '../../data/projects';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
-import { createProjectsTimeline } from '../../animations/projectAnimations';
+import { createProjectsStack } from '../../animations/projectAnimations';
 import './Projects.css';
 
-/** Scène 07 — Projets et réalisations. */
+/** Scène 07 — Projets et réalisations : une pile de fiches qui se recouvrent au défilement. */
 export default function Projects() {
   const rootRef = useRef(null);
 
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      const animate = () => createProjectsTimeline(rootRef.current);
+      const animate = () => createProjectsStack(rootRef.current);
       addLayoutAnimation(mm, { wide: animate, narrow: animate });
-
       return () => mm.revert();
     },
     { scope: rootRef },
@@ -36,18 +35,24 @@ export default function Projects() {
         </p>
       </div>
 
-      <div className="projects__stage">
-        <ol className="projects__track">
-          {PROJECTS.map((project) => (
-            <li key={project.id} className="projects__slide" data-tint={project.tint}>
+      <ol className="projects__stack container">
+        {PROJECTS.map((project, index) => (
+          <li
+            key={project.id}
+            className="projects__item"
+            data-tint={project.tint}
+            style={{ '--index': index }}
+          >
+            <div className="projects__card">
               <span className="projects__ghost" aria-hidden="true">
                 {project.number}
               </span>
               <ProjectCard project={project} />
-            </li>
-          ))}
-        </ol>
-      </div>
+              <span className="projects__shade" aria-hidden="true" />
+            </div>
+          </li>
+        ))}
+      </ol>
     </section>
   );
 }
