@@ -22,8 +22,6 @@ export const STORY_LAYOUTS = {
     grid: { x: 825, y: 186, step: 99, size: 84, roundRadius: 40, squareRadius: 8 }, // Figma 7:57 → 7:81
     browser: { x: 626, y: 125, width: 741 }, // Figma 7:89
     responsive: {
-      zoom: { x: -170, y: -10, scale: 1.12 },
-      phone: { x: 930, y: 140, width: 300 },
       hideOnPhone: null,
     },
   },
@@ -45,8 +43,6 @@ export const STORY_LAYOUTS = {
     grid: { x: 35, y: 326, step: 66, size: 56, roundRadius: 27, squareRadius: 6 },
     browser: { x: 20, y: 318, width: 350 },
     responsive: {
-      zoom: { x: 0, y: -110, scale: 1.08 },
-      phone: { x: 175, y: 236, width: 195 },
       hideOnPhone: '.preview__text',
     },
   },
@@ -123,51 +119,3 @@ export const getPieceStates = (layout) => {
   return states;
 };
 
-/** Proportions des maquettes (BrowserMockup 741 × 634, PhoneMockup 300 × 620). */
-const BROWSER_RATIO = 634 / 741;
-const PHONE_RATIO = 620 / 300;
-
-/**
- * Étapes du « redimensionnement » navigateur → téléphone :
- * - start : cadre du navigateur après le zoom (même rectangle que le navigateur visible) ;
- * - end   : rectangle et arrondi de la coque du téléphone.
- */
-export const getMorphStates = (layout) => {
-  const { browser, responsive } = layout;
-  const { zoom, phone } = responsive;
-  const width = browser.width * zoom.scale;
-  const height = browser.width * BROWSER_RATIO * zoom.scale;
-  const centerX = browser.x + browser.width / 2 + zoom.x;
-  const centerY = browser.y + (browser.width * BROWSER_RATIO) / 2 + zoom.y;
-
-  // Rognage du navigateur (dans son repère local, avant le zoom) qui suit le cadre
-  const baseHeight = browser.width * BROWSER_RATIO;
-  const toLocal = (px, py) => [
-    (px - centerX) / zoom.scale + browser.width / 2,
-    (py - centerY) / zoom.scale + baseHeight / 2,
-  ];
-  const phoneHeight = phone.width * PHONE_RATIO;
-  const [left, top] = toLocal(phone.x, phone.y);
-  const [right, bottom] = toLocal(phone.x + phone.width, phone.y + phoneHeight);
-  const px = (value) => `${Math.max(0, value).toFixed(1)}px`;
-  const endRadius = (46 * phone.width) / 300 / zoom.scale;
-
-  return {
-    clipStart: `inset(0px 0px 0px 0px round ${((16 * browser.width) / 741).toFixed(1)}px)`,
-    clipEnd: `inset(${px(top)} ${px(browser.width - right)} ${px(baseHeight - bottom)} ${px(left)} round ${endRadius.toFixed(1)}px)`,
-    start: {
-      x: centerX - width / 2,
-      y: centerY - height / 2,
-      width,
-      height,
-      borderRadius: (16 * width) / 741,
-    },
-    end: {
-      x: phone.x,
-      y: phone.y,
-      width: phone.width,
-      height: phone.width * PHONE_RATIO,
-      borderRadius: (46 * phone.width) / 300,
-    },
-  };
-};

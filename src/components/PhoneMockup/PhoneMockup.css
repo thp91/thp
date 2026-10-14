@@ -60,7 +60,7 @@
   display: flex;
   flex-direction: column;
   gap: calc(var(--u) * 18);
-  min-height: calc(var(--u) * 300);
+  min-height: calc(var(--u) * 250);
   overflow: hidden;
   padding: calc(var(--u) * 22) calc(var(--u) * 18);
   border-radius: calc(var(--u) * 16);
@@ -97,11 +97,11 @@
 
 .phone-mockup__cards {
   display: grid;
-  gap: calc(var(--u) * 10);
+  gap: calc(var(--u) * 8);
 }
 
 .phone-mockup__card {
-  padding: calc(var(--u) * 22) calc(var(--u) * 16);
+  padding: calc(var(--u) * 16) calc(var(--u) * 16);
   border-radius: calc(var(--u) * 12);
   font-size: calc(var(--u) * 12);
   font-weight: var(--font-weight-bold);
@@ -114,5 +114,9 @@
 }
 
 .phone-mockup__card--lavender {
+  background-color: var(--color-lavender);
+}
+
+.phone-mockup__card--coral {
   background-color: var(--color-coral);
 }

@@ -13,7 +13,7 @@ import WebsitePreview from '../WebsitePreview/WebsitePreview';
 import { createHeroIntro, bindLogoPointer } from '../../animations/heroAnimations';
 import { addBrandScene } from '../../animations/brandAnimations';
 import { addBuildScene, addRevealScene, addResponsiveScene } from '../../animations/websiteAnimations';
-import { getMorphStates, getPieceStates, STORY_LAYOUTS } from '../../animations/storyGeometry';
+import { getPieceStates, STORY_LAYOUTS } from '../../animations/storyGeometry';
 import './Story.css';
 
 const PARALLAX_DEPTH = { 't-bar': 14, 't-stem': 10, 'h-left': -12, 'h-right': -16, p: 22 };
@@ -99,7 +99,26 @@ export default function StoryStage({ layout: layoutName }) {
         if (intro.isActive() && tl.progress() > 0.01) intro.progress(1);
       });
 
-      const ctx = { q, pieces, cardPiece, states, layout, morphStates: getMorphStates(layout) };
+      // Rectangle d'un élément dans le repère de la scène (indépendant de la mise à l'échelle)
+      const canvas = root.querySelector('.story__canvas');
+      const measure = (selector) => {
+        const element = root.querySelector(selector);
+        const box = canvas.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
+        const ratio = layout.size.width / box.width;
+        return {
+          x: (rect.left - box.left) * ratio,
+          y: (rect.top - box.top) * ratio,
+          width: rect.width * ratio,
+          height: rect.height * ratio,
+          // Toujours 4 valeurs, pour une interpolation propre entre formes différentes
+          borderRadius: ['TopLeft', 'TopRight', 'BottomRight', 'BottomLeft']
+            .map((corner) => getComputedStyle(element)[`border${corner}Radius`].split(' ')[0])
+            .join(' '),
+        };
+      };
+
+      const ctx = { q, pieces, cardPiece, states, layout, measure };
       let time = addBrandScene(tl, ctx);
       time = addBuildScene(tl, ctx, time);
       time = addRevealScene(tl, ctx, time);

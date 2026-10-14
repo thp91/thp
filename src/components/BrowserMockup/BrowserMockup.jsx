@@ -45,7 +45,7 @@ export default function BrowserMockup({ className = '' }) {
           <span className="browser-mockup__card-label browser-mockup__content">Site évolutif</span>
         </div>
         <div className="browser-mockup__card browser-mockup__card--third browser-mockup__block" data-piece="card">
-          <span className="browser-mockup__card-label browser-mockup__content">Administration</span>
+          <span className="browser-mockup__card-label browser-mockup__content">E-commerce</span>
         </div>
       </div>
     </div>

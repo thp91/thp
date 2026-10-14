@@ -95,42 +95,79 @@ export function addRevealScene(tl, { q, pieces, cardPiece, states, layout }, sta
   return start + 1.7;
 }
 
-export function addResponsiveScene(tl, { q, layout, morphStates }, start) {
+/**
+ * Le site devient mobile en se recomposant : ce sont les mêmes blocs (issus du logo)
+ * qui se déplacent vers leur place dans la version téléphone.
+ * - la barre noire du navigateur s'élargit et devient la coque ;
+ * - la page blanche se resserre et devient l'écran ;
+ * - bloc principal, bouton et cartes glissent et s'empilent ;
+ * - les textes s'effacent pendant le déplacement et réapparaissent recomposés.
+ * Les cibles sont mesurées sur la maquette du téléphone (relais au pixel près).
+ */
+export function addResponsiveScene(tl, { q, layout, pieces, cardPiece, measure }, start) {
+  const { hideOnPhone } = layout.responsive;
   const device = q('.story__browser');
-  const morph = q('.story__morph');
+  const morph = q('.story__morph')[0];
   const phone = q('.story__phone');
-  const { zoom, hideOnPhone } = layout.responsive;
   const dimmed = q('.preview__title, .preview__text, .preview__label');
   const restored = hideOnPhone ? dimmed.filter((element) => !element.matches(hideOnPhone)) : dimmed;
-  const { start: from, end: to, clipStart, clipEnd } = morphStates;
 
-  // 1. Zoom maîtrisé : le site vient au centre de l'attention
-  tl.to(device, { ...zoom, duration: 0.6, ease: 'power2.inOut' }, start)
-    .to(dimmed, { autoAlpha: 0.12, duration: 0.4 }, start);
+  const piece = (id) => (id === 'card' ? cardPiece : pieces.find((item) => item.id === id).element);
+  const TARGETS = {
+    't-bar': 'device',
+    'h-left': 'hero',
+    p: 'cta',
+    't-stem': 'card-ink',
+    'h-right': 'card-lavender',
+    card: 'card-coral',
+  };
+  // La page démarre sous la barre noire : la barre reste visible et s'élargit en coque derrière l'écran
+  const frame = measure('.story__browser .browser-mockup__frame');
+  const bar = measure('.story__browser .browser-mockup__bar');
+  const radius = parseFloat(frame.borderRadius);
+  const page = {
+    ...frame,
+    y: frame.y + bar.height,
+    height: frame.height - bar.height,
+    borderRadius: `0px 0px ${radius}px ${radius}px`,
+  };
+  const screen = measure('.story__phone [data-phone="screen"]');
 
-  // 2. La fenêtre se redimensionne comme un vrai navigateur : le cadre se resserre
-  //    et rogne le site desktop sur ses bords…
-  const resizeAt = start + 0.75;
-  tl.set(morph, { ...from, autoAlpha: 1 }, resizeAt)
-    .fromTo(device, { clipPath: clipStart }, { clipPath: clipEnd, duration: 0.8, ease: 'power3.inOut' }, resizeAt)
-    .to(morph, { ...to, duration: 0.8, ease: 'power3.inOut' }, resizeAt)
-    // …puis le site se recompose pour le mobile et le cadre devient la coque du téléphone
-    .to(device, { autoAlpha: 0, duration: 0.15 }, resizeAt + 0.75)
-    .to(morph, { backgroundColor: '#1e1e1f', duration: 0.15 }, resizeAt + 0.75)
-    .set(phone, { autoAlpha: 1 }, resizeAt + 0.9)
-    .set(morph, { autoAlpha: 0 }, resizeAt + 0.9)
-    .from(
-      q('.story__phone .phone-mockup__notch, .story__phone .phone-mockup__header, .story__phone .phone-mockup__hero, .story__phone .phone-mockup__card'),
-      { y: 16, autoAlpha: 0, duration: 0.3, stagger: 0.06, ease: 'power2.out' },
-      resizeAt + 0.9,
+  // 1. Les textes du site desktop s'effacent : il ne reste que sa structure
+  tl.to(dimmed, { autoAlpha: 0.25, duration: 0.3 }, start)
+    .to(q('.story__browser .browser-mockup__content, .story__browser .browser-mockup__dot'), { autoAlpha: 0, duration: 0.25, stagger: 0.01 }, start);
+
+  // 2. Relais invisible : les blocs animés reprennent la place exacte du navigateur
+  const swapAt = start + 0.3;
+  tl.set(morph, { ...page, autoAlpha: 1, zIndex: 1 }, swapAt)
+    .set(piece('t-bar'), { autoAlpha: 1, zIndex: 0 }, swapAt)
+    .set(Object.keys(TARGETS).filter((id) => id !== 't-bar').map(piece), { autoAlpha: 1, zIndex: 2 }, swapAt)
+    .set(device, { autoAlpha: 0 }, swapAt);
+
+  // 3. Recomposition : chaque bloc rejoint sa place dans la version mobile
+  const moveAt = swapAt + 0.05;
+  tl.to(morph, { ...screen, duration: 0.9, ease: 'power3.inOut' }, moveAt);
+  Object.entries(TARGETS).forEach(([id, target], index) => {
+    const { borderRadius, ...rect } = measure(`.story__phone [data-phone="${target}"]`);
+    const element = piece(id);
+    tl.to(element, { ...rect, duration: 0.9, ease: 'power3.inOut' }, moveAt + index * 0.03).to(
+      element.querySelector('.story-piece__block'),
+      { borderRadius, duration: 0.9, ease: 'power3.inOut' },
+      moveAt + index * 0.03,
     );
+  });
 
-  tl.to(restored, { autoAlpha: 1, duration: 0.4 }, start + 1.3)
-    .to(q('.preview__caption-item--desktop'), { autoAlpha: 0, y: -16, duration: 0.3 }, start + 1.25)
-    .fromTo(q('.preview__caption-item--mobile'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.3 }, start + 1.35);
+  // 4. Le téléphone prend le relais et ses contenus s'installent
+  const doneAt = moveAt + 1.05;
+  tl.set(phone, { autoAlpha: 1 }, doneAt)
+    .set([morph, ...Object.keys(TARGETS).map(piece)], { autoAlpha: 0 }, doneAt)
+    .from(q('.story__phone [data-phone-text]'), { y: 10, autoAlpha: 0, duration: 0.3, stagger: 0.04, ease: 'power2.out' }, doneAt)
+    .to(restored, { autoAlpha: 1, duration: 0.4 }, doneAt)
+    .to(q('.preview__caption-item--desktop'), { autoAlpha: 0, y: -16, duration: 0.3 }, doneAt - 0.1)
+    .fromTo(q('.preview__caption-item--mobile'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.3 }, doneAt);
 
   // En portrait, le téléphone occupe la place du paragraphe
-  if (hideOnPhone) tl.to(q(hideOnPhone), { autoAlpha: 0, duration: 0.3 }, start + 1.3);
+  if (hideOnPhone) tl.to(q(hideOnPhone), { autoAlpha: 0, duration: 0.3 }, swapAt);
 
-  return start + 2;
+  return doneAt + 0.5;
 }
