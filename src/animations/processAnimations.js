@@ -1,39 +1,19 @@
 import { gsap, ScrollTrigger } from '../lib/gsap';
 
+/** Temps (dans la timeline) où chaque étape prend le relais. */
+const STEP_TIMES = [0, 1.6, 3, 4.5];
+
 /**
- * Scène 08 : l'illustration (sticky) passe de l'idée au site en ligne
- * pendant que les quatre étapes défilent. Le fil se remplit et chaque
- * étape s'active quand elle atteint le centre de l'écran.
+ * L'illustration passe de l'idée au site en ligne, en quatre états.
+ * Partagé par les deux mises en page.
  */
-export function createProcessTimeline(root) {
-  const q = gsap.utils.selector(root);
-  const stepsList = q('.process__steps')[0];
-  const steps = q('.process__step');
-  const v = (selector) => q(`.process-visual ${selector}`);
-
-  gsap.from(q('.section-heading__title .line-mask__inner'), {
-    yPercent: 110,
-    ease: 'none',
-    scrollTrigger: { trigger: root, start: 'top 80%', end: 'top 40%', scrub: 0.6 },
-  });
-
-  // État de départ de l'illustration : la conversation seule
+function addVisualStates(tl, v) {
+  // État de départ : la conversation seule
   gsap.set(v('[data-step="4"]'), { autoAlpha: 0 });
   gsap.set(v('.process-visual__chrome'), { yPercent: -100 });
   gsap.set(v('.process-visual__fill'), { clipPath: 'inset(0% 100% 0% 0% round 1.6cqw)' });
   gsap.set(v('.process-visual__outline'), { opacity: 0, scale: 0.9 });
   gsap.set(v('.process-visual__bubble, .process-visual__swatches, .process-visual__code'), { opacity: 0 });
-
-  const tl = gsap.timeline({
-    defaults: { ease: 'power2.inOut', duration: 1 },
-    scrollTrigger: {
-      trigger: stepsList,
-      start: 'top 70%',
-      end: 'bottom 60%',
-      scrub: 0.7,
-      onUpdate: (self) => stepsList.style.setProperty('--progress', self.progress.toFixed(3)),
-    },
-  });
 
   // 1. On échange : les bulles arrivent, la réponse s'écrit
   tl.fromTo(v('.process-visual__bubble--client'), { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, ease: 'back.out(1.6)' }, 0)
@@ -58,16 +38,82 @@ export function createProcessTimeline(root) {
     .fromTo(v('.process-visual__live'), { autoAlpha: 0, scale: 0.6 }, { autoAlpha: 1, scale: 1, duration: 0.4, ease: 'back.out(2.5)' }, 5)
     .fromTo(v('.process-visual__phone'), { autoAlpha: 0, yPercent: 60, rotation: 8 }, { autoAlpha: 1, yPercent: 0, rotation: 0, duration: 0.7, ease: 'power3.out' }, 5.1)
     .to({}, { duration: 0.4 });
+}
 
-  // Activation des étapes au centre de l'écran
-  steps.forEach((step) => {
-    ScrollTrigger.create({
-      trigger: step,
-      start: 'top 60%',
-      onEnter: () => step.classList.add('process__step--active'),
-      onLeaveBack: () => step.classList.remove('process__step--active'),
-    });
+/**
+ * Scène 08.
+ * - Paysage : l'illustration reste visible (sticky) pendant que les étapes défilent ;
+ *   le fil se remplit et chaque étape s'active au centre de l'écran.
+ * - Portrait : la scène est épinglée ; l'illustration en haut, l'étape en cours
+ *   en dessous, qui change au fil du défilement (aucun chevauchement).
+ */
+export function createProcessTimeline(root, { wide = true } = {}) {
+  const q = gsap.utils.selector(root);
+  const story = q('.process__story')[0];
+  const stepsList = q('.process__steps')[0];
+  const steps = q('.process__step');
+  const v = (selector) => q(`.process-visual ${selector}`);
+  const setActive = (index) => steps.forEach((step, i) => step.classList.toggle('process__step--active', i <= index));
+
+  gsap.from(q('.section-heading__title .line-mask__inner'), {
+    yPercent: 110,
+    ease: 'none',
+    scrollTrigger: { trigger: root, start: 'top 80%', end: 'top 40%', scrub: 0.7 },
   });
+
+  if (wide) {
+    const tl = gsap.timeline({
+      defaults: { ease: 'power2.inOut', duration: 1 },
+      scrollTrigger: {
+        trigger: stepsList,
+        start: 'top 70%',
+        end: 'bottom 60%',
+        scrub: 0.7,
+        onUpdate: (self) => stepsList.style.setProperty('--progress', self.progress.toFixed(3)),
+      },
+    });
+    addVisualStates(tl, v);
+
+    steps.forEach((step) => {
+      ScrollTrigger.create({
+        trigger: step,
+        start: 'top 60%',
+        onEnter: () => step.classList.add('process__step--active'),
+        onLeaveBack: () => step.classList.remove('process__step--active'),
+      });
+    });
+  } else {
+    let current = -1;
+    const tl = gsap.timeline({
+      defaults: { ease: 'power2.inOut', duration: 1 },
+      scrollTrigger: {
+        trigger: story,
+        start: 'top top',
+        end: '+=320%',
+        pin: true,
+        scrub: 0.7,
+        onUpdate: (self) => {
+          stepsList.style.setProperty('--progress', self.progress.toFixed(3));
+          // Position de défilement (et non temps lissé de la timeline, en léger retard)
+          const time = self.progress * tl.duration();
+          const index = STEP_TIMES.filter((stepTime) => time >= stepTime - 0.05).length - 1;
+          if (index !== current) {
+            current = index;
+            setActive(index);
+          }
+        },
+      },
+    });
+    addVisualStates(tl, v);
+
+    // L'étape affichée change en même temps que l'illustration
+    gsap.set(steps.slice(1), { autoAlpha: 0, y: 30 });
+    STEP_TIMES.slice(1).forEach((time, i) => {
+      tl.to(steps[i], { autoAlpha: 0, y: -30, duration: 0.3, ease: 'power2.in' }, time - 0.1)
+        .fromTo(steps[i + 1], { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, duration: 0.35, ease: 'power2.out' }, time + 0.15);
+    });
+    setActive(0);
+  }
 
   gsap.from(q('.faq__item'), {
     y: 40,

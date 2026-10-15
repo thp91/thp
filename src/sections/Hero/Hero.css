@@ -197,37 +197,40 @@
   display: inline-block;
 }
 
-/* ---------- Calque de scène, composition portrait (repère 390 × 700) ---------- */
+/* ---------- Calque de scène, composition portrait (repère 390 × 700) ----------
+   Rythme vertical régulier : 24px entre les blocs de texte, 40px avant le logo.
+   Libellé 72 → titre 126 → texte 314 → bouton 409 → logo 491 → chiffre 629. */
 .story--portrait .hero--stage .hero__label {
-  top: 84px;
+  top: 72px;
   left: 20px;
   width: 300px;
   font-size: 11px;
 }
 
 .story--portrait .hero--stage .hero__title {
-  top: 108px;
+  top: 126px;
   left: 18px;
   width: 354px;
   font-size: 52px;
 }
 
 .story--portrait .hero--stage .hero__lead {
-  top: 292px;
+  top: 314px;
   left: 20px;
   width: 350px;
   font-size: 17px;
+  line-height: 1.4;
 }
 
 .story--portrait .hero--stage .hero__actions {
-  top: 384px;
+  top: 409px;
   left: 20px;
 }
 
 .story--portrait .hero--stage .hero__stat {
-  top: 604px;
+  top: 629px;
   left: 20px;
-  gap: 2px;
+  gap: 4px;
 }
 
 .story--portrait .hero--stage .hero__stat-value {
@@ -238,27 +241,22 @@
   font-size: 13px;
 }
 
-.story--portrait .hero--stage .hero__accent--lavender {
-  top: 618px;
-  left: 300px;
-  width: 22px;
-  height: 22px;
-}
-
+/* Deux accents seulement, alignés sur la grille */
 .story--portrait .hero--stage .hero__accent--coral {
-  top: 92px;
-  left: 350px;
-  width: 16px;
-  height: 16px;
-}
-
-.story--portrait .hero--stage .hero__accent--ink {
-  top: 660px;
-  left: 352px;
+  top: 74px;
+  left: 356px;
   width: 14px;
   height: 14px;
 }
 
+.story--portrait .hero--stage .hero__accent--lavender {
+  top: 640px;
+  left: 348px;
+  width: 22px;
+  height: 22px;
+}
+
+.story--portrait .hero--stage .hero__accent--ink,
 .story--portrait .hero--stage .hero__hint {
   display: none;
 }

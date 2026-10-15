@@ -119,44 +119,75 @@
   }
 }
 
-/* Avec animations : l'illustration reste visible pendant que les étapes défilent */
+/* Avec animations */
 @media (prefers-reduced-motion: no-preference) {
-  .process__visual {
-    position: sticky;
-    top: calc(var(--header-height) + 1rem);
-    z-index: 2;
-  }
-
-  .process__step {
-    min-height: 42svh;
-    align-content: center;
-  }
-
   .process__steps::after {
     transform: scaleY(var(--progress, 0));
   }
 
-  /* Mobile : l'illustration, plus compacte, reste en haut au-dessus des étapes */
-  @media (max-width: 899.98px) {
+  /* Paysage : l'illustration reste visible pendant que les étapes défilent */
+  @media (min-aspect-ratio: 1/1) and (min-width: 900px) and (min-height: 500px) {
     .process__visual {
-      width: min(100%, 22rem);
-      margin-inline: auto;
-      padding-bottom: 1rem;
-      background-color: var(--color-cream);
-    }
-
-    .process__step {
-      min-height: 34svh;
-    }
-  }
-
-  @media (min-width: 900px) {
-    .process__visual {
+      position: sticky;
       top: max(calc(var(--header-height) + 1.5rem), calc(50svh - 14rem));
+      z-index: 2;
     }
 
     .process__step {
       min-height: 60svh;
+      align-content: center;
+    }
+  }
+
+  /*
+   * Portrait : scène épinglée. L'illustration en haut, l'étape en cours en dessous
+   * (les étapes sont superposées et se relaient), une barre de progression entre les deux.
+   */
+  @media not all and (min-aspect-ratio: 1/1) and (min-width: 900px) and (min-height: 500px) {
+    .process__story {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.5rem;
+      height: 100svh;
+      padding-block: calc(var(--header-height) + 0.75rem) 1.5rem;
+    }
+
+    .process__visual {
+      width: min(100%, 26rem, 52svh);
+      margin-inline: auto;
+    }
+
+    .process__steps {
+      min-height: 9.5rem;
+      padding-top: 1.5rem;
+    }
+
+    .process__steps::before,
+    .process__steps::after {
+      top: 0;
+      right: 0;
+      bottom: auto;
+      left: 0;
+      width: auto;
+      height: 2px;
+    }
+
+    .process__steps::after {
+      transform: scaleX(var(--progress, 0));
+      transform-origin: left center;
+    }
+
+    .process__step {
+      position: absolute;
+      top: 1.5rem;
+      right: 0;
+      left: 0;
+      padding-block: 0;
+    }
+
+    .process__step .process__content {
+      opacity: 1;
     }
   }
 }

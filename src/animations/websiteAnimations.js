@@ -96,6 +96,14 @@ export function addRevealScene(tl, { q, pieces, cardPiece, states, layout }, sta
 }
 
 /**
+ * Bascule quasi instantanée, en tween très court plutôt qu'en tl.set() :
+ * les .set() de durée nulle sont rendus en différé par GSAP et, quand la timeline
+ * est rembobinée d'un coup (chargement, rafraîchissement), ils peuvent s'appliquer
+ * dans le mauvais ordre et laisser des éléments masqués.
+ */
+const snap = (tl, targets, vars, at) => tl.to(targets, { ...vars, duration: 0.01, ease: 'none' }, at);
+
+/**
  * Le site devient mobile en se recomposant : ce sont les mêmes blocs (issus du logo)
  * qui se déplacent vers leur place dans la version téléphone.
  * - la barre noire du navigateur s'élargit et devient la coque ;
@@ -136,10 +144,10 @@ export function addResponsiveScene(tl, { q, layout, pieces, cardPiece, measure }
 
   // 2. Relais invisible : les blocs animés reprennent la place exacte du navigateur
   const swapAt = start + 0.3;
-  tl.set(morph, { ...page, autoAlpha: 1, zIndex: 1 }, swapAt)
-    .set(piece('t-bar'), { autoAlpha: 1, zIndex: 0 }, swapAt)
-    .set(Object.keys(TARGETS).filter((id) => id !== 't-bar').map(piece), { autoAlpha: 1, zIndex: 2 }, swapAt)
-    .set(device, { autoAlpha: 0 }, swapAt);
+  snap(tl, morph, { ...page, autoAlpha: 1, zIndex: 1 }, swapAt);
+  snap(tl, piece('t-bar'), { autoAlpha: 1, zIndex: 0 }, swapAt);
+  snap(tl, Object.keys(TARGETS).filter((id) => id !== 't-bar').map(piece), { autoAlpha: 1, zIndex: 2 }, swapAt);
+  snap(tl, device, { autoAlpha: 0 }, swapAt);
 
   // 3. Recomposition : chaque bloc rejoint sa place dans la version mobile
   const moveAt = swapAt + 0.05;
@@ -157,6 +165,7 @@ export function addResponsiveScene(tl, { q, layout, pieces, cardPiece, measure }
   // Pendant la recomposition, le titre se réécrit : « Visible. Mémorable. » → « Adapté. Partout. »
   q('.preview__line').forEach((line, index) => {
     const at = moveAt + 0.15 + index * 0.12;
+    snap(tl, line.querySelector('.preview__word--to'), { autoAlpha: 1 }, at);
     tl.to(line.querySelectorAll('.preview__word--from .preview__char'), {
       yPercent: -110,
       rotation: -8,
@@ -164,7 +173,6 @@ export function addResponsiveScene(tl, { q, layout, pieces, cardPiece, measure }
       duration: 0.35,
       ease: 'power2.in',
     }, at)
-      .set(line.querySelector('.preview__word--to'), { visibility: 'visible' }, at)
       .fromTo(
         line.querySelectorAll('.preview__word--to .preview__char'),
         { yPercent: 110, rotation: 8 },
@@ -175,9 +183,9 @@ export function addResponsiveScene(tl, { q, layout, pieces, cardPiece, measure }
 
   // 4. Le téléphone prend le relais et ses contenus s'installent
   const doneAt = moveAt + 1.05;
-  tl.set(phone, { autoAlpha: 1 }, doneAt)
-    .set([morph, ...Object.keys(TARGETS).map(piece)], { autoAlpha: 0 }, doneAt)
-    .from(q('.story__phone [data-phone-text]'), { y: 10, autoAlpha: 0, duration: 0.3, stagger: 0.04, ease: 'power2.out' }, doneAt)
+  snap(tl, phone, { autoAlpha: 1 }, doneAt);
+  snap(tl, [morph, ...Object.keys(TARGETS).map(piece)], { autoAlpha: 0 }, doneAt);
+  tl.from(q('.story__phone [data-phone-text]'), { y: 10, autoAlpha: 0, duration: 0.3, stagger: 0.04, ease: 'power2.out' }, doneAt)
     .to(q('.preview__caption-item--desktop'), { autoAlpha: 0, y: -16, duration: 0.3 }, doneAt - 0.1)
     .fromTo(q('.preview__caption-item--mobile'), { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: 0.3 }, doneAt);
 

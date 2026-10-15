@@ -20,8 +20,10 @@ export default function Process() {
       const mm = gsap.matchMedia();
       const q = gsap.utils.selector(rootRef.current);
 
-      const animate = () => createProcessTimeline(rootRef.current);
-      addLayoutAnimation(mm, { wide: animate, narrow: animate });
+      addLayoutAnimation(mm, {
+        wide: () => createProcessTimeline(rootRef.current, { wide: true }),
+        narrow: () => createProcessTimeline(rootRef.current, { wide: false }),
+      });
       mm.add(LAYOUT_QUERIES.reduce, () => {
         q('.process__step').forEach((step) => step.classList.add('process__step--active'));
       });

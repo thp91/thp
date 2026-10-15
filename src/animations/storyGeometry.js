@@ -27,7 +27,7 @@ export const STORY_LAYOUTS = {
   },
   portrait: {
     size: { width: 390, height: 700 },
-    heroLogo: { x: 20, y: 452, scale: 350 / 1090 },
+    heroLogo: { x: 20, y: 491, scale: 300 / 1090 }, // même marge gauche que les textes
     brandLogo: { x: 8, y: 150, scale: 374 / 1090 },
     // Lettres détachées : elles se réorganisent en colonne, en zigzag autour des mots
     stacked: {
