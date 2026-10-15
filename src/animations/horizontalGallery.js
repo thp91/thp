@@ -23,7 +23,12 @@ export function createHorizontalGallery(root, { block, media, reveal }) {
     scrollTrigger: { trigger: root, start: 'top 80%', end: 'top 30%', scrub: 0.6 },
   });
 
-  const distance = () => track.scrollWidth - window.innerWidth;
+  // Distance mesurée sur la position réelle de la dernière diapositive (centrée en fin de course).
+  // scrollWidth est faussé par les éléments encore décalés en attente de leur animation d'entrée.
+  const distance = () => {
+    const last = slides[slides.length - 1];
+    return Math.max(0, last.offsetLeft + last.offsetWidth / 2 - window.innerWidth / 2);
+  };
 
   const horizontal = gsap.to(track, {
     x: () => -distance(),
