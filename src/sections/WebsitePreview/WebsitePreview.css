@@ -54,14 +54,14 @@
 
 .preview--stage .preview__title {
   position: absolute;
-  top: 168px;
+  top: 172px;
   left: 64px;
-  font-size: 108px;
+  font-size: 86px; /* « Mémorable. » s’arrête ≈ 90px avant le navigateur (x = 626) */
 }
 
 .preview--stage .preview__text {
   position: absolute;
-  top: 430px;
+  top: 410px;
   left: 70px;
   width: 470px;
   font-size: 21px;
