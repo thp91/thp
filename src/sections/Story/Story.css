@@ -151,6 +151,6 @@
 
 .story--portrait .story__phone {
   top: 236px;
-  left: 175px;
+  left: 97.5px; /* centré : (390 − 195) / 2 */
   width: 195px;
 }
