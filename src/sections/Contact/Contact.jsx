@@ -57,7 +57,6 @@ export default function Contact() {
       className="contact"
       id="contact"
       data-scene="9"
-      data-header-theme="dark"
       aria-labelledby="contact-title"
     >
       <span className="contact__curve contact__curve--left" aria-hidden="true">

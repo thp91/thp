@@ -1,0 +1,399 @@
+/* ---------- Engagements : grille de tuiles ---------- */
+.commitments {
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  margin-top: clamp(1rem, 3vw, 2.5rem);
+}
+
+.commitments__head {
+  display: grid;
+  gap: 1rem;
+  max-width: 46rem;
+}
+
+.commitments__label {
+  color: var(--color-lavender);
+}
+
+.commitments__title {
+  font-size: clamp(2.5rem, 1.4rem + 4.5vw, 5.5rem);
+}
+
+.commitments__title-accent {
+  color: var(--color-lavender);
+}
+
+.commitments__intro {
+  color: var(--color-muted-dark);
+}
+
+.commitments__grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.commitment {
+  display: grid;
+  gap: 1.75rem;
+  align-content: space-between;
+  min-height: 24rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border-radius: var(--radius-large);
+  color: var(--color-ink);
+  overflow: hidden;
+}
+
+.commitment--lavender {
+  background-color: var(--color-lavender);
+}
+
+.commitment--coral {
+  background-color: var(--color-coral);
+}
+
+.commitment--cream {
+  background-color: var(--color-cream);
+}
+
+.commitment--outline {
+  box-shadow: inset 0 0 0 1px var(--color-line-dark);
+  color: var(--color-cream);
+}
+
+.commitment__body {
+  display: grid;
+  gap: 0.4rem;
+  align-content: end;
+}
+
+.commitment__figure {
+  font-size: clamp(4.5rem, 2.5rem + 7vw, 8.5rem);
+  font-weight: var(--font-weight-bold);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+}
+
+.commitment__suffix {
+  margin-left: 0.08em;
+  font-size: 0.4em;
+  letter-spacing: -0.02em;
+}
+
+.commitment__title {
+  font-size: clamp(1.25rem, 1rem + 0.8vw, 1.75rem);
+  letter-spacing: -0.02em;
+}
+
+.commitment__text {
+  max-width: 26rem;
+  font-size: var(--font-size-small);
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+.commitment__visual {
+  display: flex;
+  align-items: center;
+}
+
+.commitments__check {
+  flex: 0 0 auto;
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+}
+
+/* Grille asymétrique : tuiles larges (7/12) et étroites (5/12) en alternance */
+@media (min-width: 1000px) {
+  .commitments__grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .commitment--frais,
+  .commitment--experience {
+    grid-column: span 7;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    align-items: end;
+  }
+
+  .commitment--abonnement,
+  .commitment--acces {
+    grid-column: span 5;
+  }
+
+  .commitment--frais .commitment__visual,
+  .commitment--experience .commitment__visual {
+    order: 2;
+    align-self: center;
+  }
+}
+
+/* ---------- Devis ---------- */
+.quote-sketch {
+  position: relative;
+  display: grid;
+  gap: 0.7rem;
+  width: min(100%, 22rem);
+  padding: 1.25rem;
+  border-radius: 14px;
+  background-color: var(--color-white);
+  box-shadow: 0 1.25rem 2.5rem -1.5rem rgba(30, 30, 31, 0.45);
+}
+
+.quote-sketch > * {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.quote-sketch__head {
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.quote-sketch__title {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+.quote-sketch__ref {
+  width: 3.5rem;
+  height: 0.5rem;
+  border-radius: 1rem;
+  background-color: rgba(30, 30, 31, 0.15);
+}
+
+.quote-sketch__row .commitments__check {
+  color: var(--color-lavender-ink);
+}
+
+.quote-sketch__label {
+  flex: 0 0 auto;
+  width: var(--width);
+  height: 0.55rem;
+  border-radius: 1rem;
+  background-color: rgba(30, 30, 31, 0.18);
+}
+
+.quote-sketch__amount {
+  width: 2.75rem;
+  height: 0.55rem;
+  margin-left: auto;
+  border-radius: 1rem;
+  background-color: rgba(30, 30, 31, 0.55);
+}
+
+.quote-sketch__total {
+  justify-content: space-between;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.quote-sketch__total-label {
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.quote-sketch__total-amount {
+  width: 4rem;
+  height: 0.8rem;
+  border-radius: 1rem;
+  background-color: var(--color-ink);
+}
+
+.quote-sketch__stamp {
+  position: absolute;
+  right: -0.75rem;
+  bottom: -1rem;
+  padding: 0.45rem 0.8rem;
+  border: 2px solid var(--color-coral-ink);
+  border-radius: 6px;
+  background-color: var(--color-white);
+  color: var(--color-coral-ink);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+  transform: rotate(-8deg);
+}
+
+/* ---------- Interrupteur ---------- */
+.switch-sketch {
+  display: grid;
+  gap: 0.9rem;
+  width: min(100%, 22rem);
+  padding: 1.25rem;
+  border-radius: 14px;
+  background-color: var(--color-white);
+  box-shadow: 0 1.25rem 2.5rem -1.5rem rgba(30, 30, 31, 0.45);
+}
+
+.switch-sketch__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.switch-sketch__label {
+  font-size: 0.9375rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.switch-sketch__track {
+  position: relative;
+  flex: 0 0 auto;
+  width: 3.4rem;
+  height: 1.9rem;
+  border-radius: 1rem;
+  background-color: rgba(30, 30, 31, 0.18);
+}
+
+/* État final par défaut : désactivé (bouton à gauche) */
+.switch-sketch__knob {
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  box-shadow: 0 1px 4px rgba(30, 30, 31, 0.3);
+}
+
+.switch-sketch__state {
+  position: relative;
+  display: block;
+  height: 1.1rem;
+  overflow: hidden;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+.switch-sketch__state-item {
+  position: absolute;
+  inset: 0;
+}
+
+.switch-sketch__state-item--on {
+  color: var(--color-ink);
+  visibility: hidden;
+}
+
+.switch-sketch__state-item--off {
+  color: var(--color-muted);
+}
+
+.switch-sketch__choice {
+  justify-self: start;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+/* ---------- Accès ---------- */
+.access-sketch {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.access-sketch__ring {
+  flex: 0 0 auto;
+  width: 6.5rem;
+  height: 6.5rem;
+  transform: rotate(-90deg);
+}
+
+.access-sketch__ring circle {
+  fill: none;
+  stroke-width: 12;
+}
+
+.access-sketch__ring-base {
+  stroke: rgba(30, 30, 31, 0.1);
+}
+
+.access-sketch__ring-fill {
+  stroke: var(--color-coral);
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+}
+
+.access-sketch__list {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.access-sketch__item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.access-sketch__item .commitments__check {
+  color: var(--color-coral-ink);
+}
+
+/* ---------- Frise ---------- */
+.timeline-sketch {
+  position: relative;
+  width: 100%;
+  padding-top: 0.4rem;
+}
+
+.timeline-sketch__line {
+  position: absolute;
+  top: calc(0.4rem + 6px);
+  left: 6px;
+  right: 6px;
+  height: 2px;
+  background-color: var(--color-lavender);
+  transform-origin: left center;
+}
+
+.timeline-sketch__list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.timeline-sketch__item {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.timeline-sketch__dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--color-coral);
+  box-shadow: 0 0 0 4px var(--color-night);
+}
+
+.timeline-sketch__name {
+  color: var(--color-muted-dark);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+  text-transform: uppercase;
+}

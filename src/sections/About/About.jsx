@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { addLayoutAnimation, gsap, useGSAP } from '../../lib/gsap';
 import { EXPERIENCES } from '../../data/experience';
-import { COMMITMENTS } from '../../data/commitments';
+import Commitments from './Commitments';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { createAboutTimeline } from '../../animations/aboutAnimations';
 import './About.css';
@@ -27,7 +27,6 @@ export default function About() {
       className="about"
       id="a-propos"
       data-scene="6"
-      data-header-theme="dark"
       aria-labelledby="about-title"
     >
       <div className="about__inner container">
@@ -89,41 +88,7 @@ export default function About() {
           </ol>
         </div>
 
-        <div className="about__commitments">
-          <div className="about__commitments-head">
-            <p className="about__commitments-label label">Ma façon de travailler</p>
-            <h3 className="about__commitments-title">Transparence et autonomie.</h3>
-            <p className="about__commitments-text">
-              Vous savez ce que vous payez, vous gardez la main sur votre site, et vous n’êtes lié à aucun contrat
-              que vous n’avez pas choisi.
-            </p>
-          </div>
-          <ul className="about__stats">
-            {COMMITMENTS.map((item) => (
-              <li key={item.id} className="about__stat">
-                <span className="about__stat-rule" aria-hidden="true" />
-                <p className="about__stat-figure">
-                  <span className="visually-hidden">
-                    {item.prefix}
-                    {item.value}
-                    {item.suffix} {item.title}
-                  </span>
-                  <span aria-hidden="true">
-                    {item.prefix}
-                    <span className="about__stat-value" data-from={item.from} data-to={item.value}>
-                      {item.value}
-                    </span>
-                    {item.suffix && <span className="about__stat-suffix">{item.suffix}</span>}
-                  </span>
-                </p>
-                <p className="about__stat-title" aria-hidden="true">
-                  {item.title}
-                </p>
-                <p className="about__stat-text">{item.text}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <Commitments />
       </div>
     </section>
   );

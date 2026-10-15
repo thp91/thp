@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
-import { getSurfaceAt, isDark } from '../../lib/surface';
+import useSurfaceTheme from '../../hooks/useSurfaceTheme';
 import { useScrollTo } from '../../hooks/useLenis';
 import { NAV_LINKS } from '../../data/site';
 import Logo from '../Logo/Logo';
@@ -8,45 +7,15 @@ import './Header.css';
 
 export default function Header() {
   const rootRef = useRef(null);
-  const [theme, setTheme] = useState('light');
   const [menuOpen, setMenuOpen] = useState(false);
   const scrollTo = useScrollTo();
 
-  // Fond et contraste suivent la surface située juste sous l'en-tête.
-  // Vérification pendant le défilement, et un court instant après
-  // (le temps que les scènes animées finissent leur transition).
-  useGSAP(() => {
-    const header = rootRef.current;
-    let activeUntil = 0;
-    let lastColor = '';
-
-    const update = () => {
-      const { bottom } = header.getBoundingClientRect();
-      const surface = getSurfaceAt(4, bottom + 2, header);
-      if (surface.color === lastColor) return;
-      lastColor = surface.color;
-      header.style.setProperty('--header-surface', surface.color);
-      setTheme(surface.rgb && isDark(surface.rgb) ? 'dark' : 'light');
-    };
-
-    const tick = () => {
-      if (performance.now() < activeUntil) update();
-    };
-    const wake = () => {
-      activeUntil = performance.now() + 1500;
-    };
-
-    ScrollTrigger.create({ start: 0, end: 'max', onUpdate: wake });
-    ScrollTrigger.addEventListener('refresh', wake);
-    gsap.ticker.add(tick);
-    wake();
-    update();
-
-    return () => {
-      gsap.ticker.remove(tick);
-      ScrollTrigger.removeEventListener('refresh', wake);
-    };
-  });
+  // Fond et contraste suivent la surface située juste sous l'en-tête
+  const theme = useSurfaceTheme(
+    rootRef,
+    (rect) => [4, rect.bottom + 2],
+    (color) => rootRef.current.style.setProperty('--header-surface', color),
+  );
 
   useEffect(() => {
     if (!menuOpen) return undefined;

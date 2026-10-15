@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap, useGSAP } from '../../lib/gsap';
-import { emitHeaderTheme, emitScene } from '../../lib/events';
+import { emitScene } from '../../lib/events';
 import { LOGO_PIECES } from '../../assets/logos/thpLetters';
 import LogoPiece from '../../components/LogoPiece/LogoPiece';
 import TileGrid from '../../components/TileGrid/TileGrid';
@@ -18,12 +18,12 @@ import './Story.css';
 
 const PARALLAX_DEPTH = { 't-bar': 14, 't-stem': 10, 'h-left': -12, 'h-right': -16, p: 22 };
 
-/** Seuils (en temps de timeline) des scènes et du thème de l'en-tête. */
+/** Seuils (en temps de timeline) des scènes, pour l'indicateur de progression. */
 const SCENE_MARKERS = [
-  { at: 0, scene: 1, theme: 'light' },
-  { at: 0.35, scene: 2, theme: 'dark' },
-  { at: 1.65, scene: 3, theme: 'light' },
-  { at: 3.3, scene: 4, theme: 'light' },
+  { at: 0, scene: 1 },
+  { at: 0.35, scene: 2 },
+  { at: 1.65, scene: 3 },
+  { at: 3.3, scene: 4 },
 ];
 
 /**
@@ -69,7 +69,6 @@ export default function StoryStage({ layout: layoutName }) {
       const intro = createHeroIntro(root);
 
       let currentScene = 1;
-      let currentTheme = 'light';
       const tl = gsap.timeline({
         defaults: { ease: 'power2.out' },
         scrollTrigger: {
@@ -85,10 +84,6 @@ export default function StoryStage({ layout: layoutName }) {
             if (marker.scene !== currentScene) {
               currentScene = marker.scene;
               emitScene(marker.scene);
-            }
-            if (marker.theme !== currentTheme) {
-              currentTheme = marker.theme;
-              emitHeaderTheme(marker.theme);
             }
           },
         },

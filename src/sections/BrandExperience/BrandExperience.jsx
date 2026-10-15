@@ -9,7 +9,6 @@ export default function BrandExperience({ variant = 'flow' }) {
     <section
       className={`brand brand--${variant}`}
       data-scene={isFlow ? 2 : undefined}
-      data-header-theme={isFlow ? 'dark' : undefined}
       aria-labelledby="brand-title"
     >
       <p className="brand__label label">La forme devient interface</p>

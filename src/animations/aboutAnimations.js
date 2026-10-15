@@ -1,4 +1,5 @@
 import { gsap } from '../lib/gsap';
+import { createCommitmentsAnimations } from './commitmentsAnimations';
 
 /**
  * Scène 06 : une ligne verticale se dessine ; chaque agence vient s'aligner sur l'axe,
@@ -43,40 +44,7 @@ export function createAboutTimeline(root) {
     if (role) tl.from(role, { y: 12, autoAlpha: 0, duration: 0.4 }, at + 0.5);
   });
 
-  // Engagements : la ligne se trace, puis le compteur monte (ou descend) jusqu'à sa valeur
-  q('.about__stat').forEach((stat, index) => {
-    const value = stat.querySelector('.about__stat-value');
-    const counter = { current: Number(value.dataset.from) };
-    const target = Number(value.dataset.to);
-    const render = () => {
-      value.textContent = Math.round(counter.current);
-    };
+  const cleanupCommitments = createCommitmentsAnimations(root);
 
-    gsap
-      .timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: q('.about__stats')[0],
-          start: `top ${95 - index * 3}%`,
-          end: `top ${68 - index * 3}%`,
-          scrub: 0.6,
-        },
-      })
-      .from(stat.querySelector('.about__stat-rule'), { scaleX: 0, duration: 0.4 }, 0)
-      .from(stat.querySelectorAll('.about__stat-title, .about__stat-text'), { y: 20, autoAlpha: 0, stagger: 0.1, duration: 0.4 }, 0.2)
-      .to(counter, { current: target, duration: 1, ease: 'power1.out', onUpdate: render }, 0);
-    render();
-  });
-
-  gsap.from(q('.about__commitments-head > *'), {
-    y: 30,
-    autoAlpha: 0,
-    stagger: 0.1,
-    ease: 'none',
-    scrollTrigger: { trigger: q('.about__commitments')[0], start: 'top 85%', end: 'top 55%', scrub: 0.6 },
-  });
-
-  return () => q('.about__stat-value').forEach((value) => {
-    value.textContent = value.dataset.to;
-  });
+  return cleanupCommitments;
 }

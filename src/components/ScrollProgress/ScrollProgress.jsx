@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap, ScrollTrigger, useGSAP } from '../../lib/gsap';
-import { onHeaderTheme, onScene } from '../../lib/events';
+import { onScene } from '../../lib/events';
+import useSurfaceTheme from '../../hooks/useSurfaceTheme';
 import { SCENE_COUNT } from '../../data/site';
 import './ScrollProgress.css';
 
@@ -13,10 +14,10 @@ const pad = (value) => String(value).padStart(2, '0');
 export default function ScrollProgress() {
   const rootRef = useRef(null);
   const [scene, setScene] = useState(1);
-  const [theme, setTheme] = useState('light');
+  // Contraste adapté au fond situé sous l'indicateur
+  const theme = useSurfaceTheme(rootRef, (rect) => [rect.left + rect.width / 2, rect.top + rect.height / 2]);
 
   useEffect(() => onScene(setScene), []);
-  useEffect(() => onHeaderTheme(setTheme), []);
 
   useGSAP(
     () => {
@@ -40,14 +41,6 @@ export default function ScrollProgress() {
         });
       });
 
-      gsap.utils.toArray(document.querySelectorAll('[data-header-theme="dark"]')).forEach((section) => {
-        ScrollTrigger.create({
-          trigger: section,
-          start: 'bottom bottom-=48',
-          end: 'bottom top+=48',
-          onToggle: (self) => setTheme(self.isActive ? 'dark' : 'light'),
-        });
-      });
     },
     { scope: rootRef },
   );
