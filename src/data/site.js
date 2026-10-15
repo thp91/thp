@@ -3,7 +3,7 @@
  * ⚠️ À PERSONNALISER : remplacer l'adresse ci-dessous par l'adresse professionnelle réelle.
  */
 export const CONTACT = {
-  email: 'contact@thp-development.fr', // PLACEHOLDER — adresse à confirmer
+  email: 'thp.development.pro@gmail.com',
   name: 'Théophile Mazaud',
   role: 'Développeur web freelance',
 };

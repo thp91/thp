@@ -67,7 +67,7 @@ Transverse : curseur personnalisé (pointeur précis uniquement, « VOIR » sur 
 
 ## À personnaliser
 
-- **Adresse e-mail** : `src/data/site.js` → `CONTACT.email` (actuellement un placeholder `contact@thp-development.fr`).
+- **Adresse e-mail** : `src/data/site.js` → `CONTACT.email` (thp.development.pro@gmail.com).
 - **Projets** : `src/data/projects.js` — Nutrimuscle, Bon Parfumeur Paris, Le Moulin de Balme, Golf Château l'Arc, avec captures de page d'accueil (800 × 500). À compléter : `work` (contribution exacte), `agency` et `kind` ; les champs vides ne s'affichent pas. Remplacer les captures par des versions haute définition (1600 × 1000) si possible.
 - **Agences** : `src/data/experience.js` — `url` optionnelle pour chaque agence.
 - **FAQ** : `src/data/faq.js` — réponses volontairement prudentes (aucun tarif ni délai), à ajuster.
