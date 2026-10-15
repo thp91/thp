@@ -13,20 +13,17 @@ const TITLE_LINES = [['Votre', 'prochain'], ['site', 'commence'], ['ici.']];
 const curveLeft = LOGO_PIECES.find((piece) => piece.id === 'h-left');
 const curveRight = LOGO_PIECES.find((piece) => piece.id === 'h-right');
 
-/**
- * Construit un e-mail prérempli : fonctionne sans service tiers.
- * Pour un envoi direct depuis le site, brancher ici un service de formulaire (voir README).
- */
-const buildMailto = ({ name, email, message }) => {
-  const subject = `Projet de site — ${name || 'nouveau contact'}`;
-  const body = `${message}\n\n—\n${name}\n${email}`;
-  return `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const STATUS_MESSAGES = {
+  idle: 'Je vous réponds personnellement.',
+  sending: 'Envoi en cours…',
+  sent: 'Merci ! Votre message est bien arrivé, je reviens vers vous très vite.',
 };
 
 /** Scène 09 — Contact final. */
 export default function Contact() {
   const rootRef = useRef(null);
   const [status, setStatus] = useState('idle');
+  const [error, setError] = useState('');
 
   useGSAP(
     () => {
@@ -39,16 +36,31 @@ export default function Contact() {
     { scope: rootRef },
   );
 
-  const handleSubmit = (event) => {
+  // Envoi via la fonction serveur /api/contact (Resend) ; la clé API ne quitte jamais le serveur
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (!form.checkValidity()) {
       form.reportValidity();
       return;
     }
-    const data = Object.fromEntries(new FormData(form));
-    window.location.href = buildMailto(data);
-    setStatus('sent');
+
+    setStatus('sending');
+    setError('');
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'L’envoi a échoué.');
+      form.reset();
+      setStatus('sent');
+    } catch (submitError) {
+      setError(submitError.message);
+      setStatus('error');
+    }
   };
 
   return (
@@ -124,14 +136,26 @@ export default function Contact() {
               </label>
               <textarea className="contact__input contact__input--textarea" id="contact-message" name="message" rows="4" required />
             </div>
+            {/* Champ piège pour les robots : invisible et ignoré par les visiteurs */}
+            <div className="contact__trap" aria-hidden="true">
+              <label htmlFor="contact-company">Société</label>
+              <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+            </div>
             <div className="contact__submit">
-              <MagneticButton type="submit" variant="coral" size="large">
-                Préparer mon message
+              <MagneticButton type="submit" variant="coral" size="large" disabled={status === 'sending'}>
+                {status === 'sending' ? 'Envoi…' : 'Envoyer mon message'}
               </MagneticButton>
-              <p className="contact__status" role="status">
-                {status === 'sent'
-                  ? 'Votre messagerie s’ouvre avec votre message prêt à être envoyé.'
-                  : 'Le message s’ouvrira dans votre messagerie, prêt à être envoyé.'}
+              <p className={`contact__status contact__status--${status}`} role="status" aria-live="polite">
+                {status === 'error' ? (
+                  <>
+                    {error}{' '}
+                    <a className="contact__status-link" href={`mailto:${CONTACT.email}`}>
+                      {CONTACT.email}
+                    </a>
+                  </>
+                ) : (
+                  STATUS_MESSAGES[status]
+                )}
               </p>
             </div>
           </form>

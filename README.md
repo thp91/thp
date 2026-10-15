@@ -72,7 +72,11 @@ Transverse : curseur personnalisé (pointeur précis uniquement, « VOIR » sur 
 - **Agences** : `src/data/experience.js` — `url` optionnelle pour chaque agence.
 - **FAQ** : `src/data/faq.js` — réponses volontairement prudentes (aucun tarif ni délai), à ajuster.
 - **URL du site** : `index.html` (canonical, Open Graph, JSON-LD).
-- **Formulaire** : il prépare un e-mail dans la messagerie du visiteur (`mailto:`), sans service tiers. Pour un envoi direct depuis le site, brancher un service (Formspree, Web3Forms, fonction serverless…) dans `handleSubmit` de `src/sections/Contact/Contact.jsx`.
+- **Formulaire de contact** : envoi direct via Resend, par la fonction serveur `api/contact.js` (Vercel). La clé API reste côté serveur.
+  - En local : copier `.env.example` en `.env.local`, y renseigner `RESEND_API_KEY`, puis relancer `npm run dev` (le serveur de dev sert aussi `/api/contact`).
+  - En production (Vercel) : *Project Settings → Environment Variables* → `RESEND_API_KEY` (et éventuellement `CONTACT_TO`, `CONTACT_FROM`).
+  - Tant qu'aucun domaine n'est vérifié dans Resend, l'expéditeur est `onboarding@resend.dev` et Resend n'autorise l'envoi **qu'à l'adresse du compte Resend**. Pour un expéditeur à votre nom, vérifier un domaine dans Resend puis définir `CONTACT_FROM`.
+  - Protection : validation des champs, champ piège anti-robots ; le visiteur peut répondre directement (« Répondre » renvoie vers son adresse).
 
 ## Assets manquants
 

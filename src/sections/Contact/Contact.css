@@ -189,6 +189,27 @@
   margin-top: 0.5rem;
 }
 
+.contact__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.contact__status--sent {
+  color: var(--color-lavender);
+}
+
+.contact__status--error {
+  color: var(--color-coral);
+}
+
+.contact__status-link {
+  color: var(--color-cream);
+  text-decoration: underline;
+}
+
 .contact__status {
   max-width: 22rem;
   color: var(--color-muted-dark);
