@@ -19,7 +19,7 @@ export const FAQ_ITEMS = [
     id: 'modifier',
     question: 'Pourrai-je modifier mon site moi-même ?',
     answer:
-      'Oui, si vous en avez besoin. Je peux prévoir un espace d’administration simple pour modifier vos textes, vos photos et vos contenus, sans écrire une ligne de code.',
+      'Oui. Je développe des interfaces d’administration sur mesure, pensées pour vous : vous modifiez vos textes, vos photos et vos contenus en toute autonomie, sans écrire une ligne de code.',
   },
   {
     id: 'mobile',
@@ -31,7 +31,7 @@ export const FAQ_ITEMS = [
     id: 'hebergement',
     question: 'Qui s’occupe de l’hébergement et du nom de domaine ?',
     answer:
-      'Nous en parlons dès le départ. Je vous explique les options possibles et je vous aide à choisir la solution la plus simple pour votre situation.',
+      'Nous en parlons dès le départ et je vous aide à choisir la solution la plus simple. Dans tous les cas, je vous remets l’ensemble des accès (site, administration, nom de domaine, hébergement) : vous restez maître de votre site.',
   },
   {
     id: 'apres',

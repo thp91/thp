@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { addLayoutAnimation, gsap, useGSAP } from '../../lib/gsap';
 import { EXPERIENCES } from '../../data/experience';
+import { COMMITMENTS } from '../../data/commitments';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { createAboutTimeline } from '../../animations/aboutAnimations';
 import './About.css';
@@ -47,6 +48,10 @@ export default function About() {
             J’ai travaillé aux côtés d’équipes spécialisées dans la création de sites et le digital. Aujourd’hui,
             je vous accompagne directement, de la première idée jusqu’à la mise en ligne.
           </p>
+          <p>
+            Je développe aussi des interfaces d’administration sur mesure : un espace simple, pensé pour vous,
+            pour modifier vos textes, vos photos, vos produits ou vos réalisations sans dépendre de personne.
+          </p>
         </div>
 
         <div className="about__timeline">
@@ -82,6 +87,42 @@ export default function About() {
               </li>
             ))}
           </ol>
+        </div>
+
+        <div className="about__commitments">
+          <div className="about__commitments-head">
+            <p className="about__commitments-label label">Ma façon de travailler</p>
+            <h3 className="about__commitments-title">Transparence et autonomie.</h3>
+            <p className="about__commitments-text">
+              Vous savez ce que vous payez, vous gardez la main sur votre site, et vous n’êtes lié à aucun contrat
+              que vous n’avez pas choisi.
+            </p>
+          </div>
+          <ul className="about__stats">
+            {COMMITMENTS.map((item) => (
+              <li key={item.id} className="about__stat">
+                <span className="about__stat-rule" aria-hidden="true" />
+                <p className="about__stat-figure">
+                  <span className="visually-hidden">
+                    {item.prefix}
+                    {item.value}
+                    {item.suffix} {item.title}
+                  </span>
+                  <span aria-hidden="true">
+                    {item.prefix}
+                    <span className="about__stat-value" data-from={item.from} data-to={item.value}>
+                      {item.value}
+                    </span>
+                    {item.suffix && <span className="about__stat-suffix">{item.suffix}</span>}
+                  </span>
+                </p>
+                <p className="about__stat-title" aria-hidden="true">
+                  {item.title}
+                </p>
+                <p className="about__stat-text">{item.text}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </section>

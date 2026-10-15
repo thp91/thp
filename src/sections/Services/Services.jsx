@@ -30,7 +30,8 @@ export default function Services() {
         />
         <p className="services__note">
           Trois formules selon ce que votre site doit faire : présenter votre activité, s’enrichir avec le temps
-          ou vendre en ligne.
+          ou vendre en ligne. Quand vous en avez besoin, je développe aussi l’interface d’administration qui va
+          avec, pour que vous puissiez tout modifier vous-même.
         </p>
       </div>
 
