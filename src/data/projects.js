@@ -1,14 +1,18 @@
+import nutrimuscle from '../assets/images/projects/nutrimuscle.jpg';
+import bonParfumeur from '../assets/images/projects/bon-parfumeur.jpg';
+import moulinDeBalme from '../assets/images/projects/moulin-de-balme.jpg';
+import chateauLArc from '../assets/images/projects/chateau-l-arc.jpg';
+
 /**
- * Projets et contributions.
- *
- * ⚠️ PLACEHOLDERS : les trois entrées ci-dessous reprennent les catégories de la maquette
- * (« Visuels et périmètres exacts des projets à renseigner »). Remplacer chaque champ
- * marqué `placeholder: true` par les informations réelles, et ajouter `image`
- * (capture du site, idéalement 1600 × 1000 en WebP) lorsqu'elle est disponible.
- *
- * kind : 'personnel' | 'freelance' | 'agence'
+ * Projets auxquels Théophile a collaboré.
+ * - `description` : ce qu'est le site (constaté sur le site en ligne) ;
+ * - `work`        : ⚠️ À CONFIRMER — sa contribution exacte (affichée seulement si renseignée) ;
+ * - `agency`      : ⚠️ À CONFIRMER — agence concernée le cas échéant ;
+ * - `image`       : capture de la page d'accueil (800 × 500, octobre 2026).
+ * kind : 'collaboration' | 'personnel' | 'freelance' | 'agence'
  */
 export const PROJECT_KINDS = {
+  collaboration: 'Collaboration',
   personnel: 'Projet personnel',
   freelance: 'Projet freelance',
   agence: 'Contribution en agence',
@@ -16,48 +20,59 @@ export const PROJECT_KINDS = {
 
 export const PROJECTS = [
   {
-    id: 'projet-01',
-    placeholder: true,
+    id: 'nutrimuscle',
     number: '01',
-    name: 'Sites vitrines',
-    type: 'Site vitrine',
-    kind: 'freelance',
+    name: 'Nutrimuscle',
+    type: 'Site e-commerce',
+    kind: 'collaboration',
     agency: null,
-    need: 'Besoin du client — à renseigner.',
-    work: 'Design + développement — périmètre exact à renseigner.',
-    result: 'Fonctionnalités livrées — à renseigner.',
-    image: null,
-    url: null,
-    tint: '#efe9ff',
+    description: 'Boutique en ligne de compléments alimentaires et de nutrition sportive.',
+    work: null,
+    result: null,
+    image: nutrimuscle,
+    url: 'https://www.nutrimuscle.com/',
+    tint: '#eceef0',
   },
   {
-    id: 'projet-02',
-    placeholder: true,
+    id: 'bon-parfumeur',
     number: '02',
-    name: 'Expériences e-commerce',
-    type: 'Boutique en ligne',
-    kind: 'agence',
-    agency: 'Agence — à renseigner',
-    need: 'Besoin du client — à renseigner.',
-    work: 'Intégration et interfaces — périmètre exact à renseigner.',
-    result: 'Fonctionnalités livrées — à renseigner.',
-    image: null,
-    url: null,
-    tint: '#ffe9e4',
+    name: 'Bon Parfumeur Paris',
+    type: 'Site e-commerce',
+    kind: 'collaboration',
+    agency: null,
+    description: 'Boutique en ligne d’une maison de haute parfumerie française.',
+    work: null,
+    result: null,
+    image: bonParfumeur,
+    url: 'https://www.bonparfumeur.com/fr',
+    tint: '#e8efe9',
   },
   {
-    id: 'projet-03',
-    placeholder: true,
+    id: 'moulin-de-balme',
     number: '03',
-    name: 'Outils web',
-    type: 'Site avec administration',
-    kind: 'personnel',
+    name: 'Le Moulin de Balme',
+    type: 'Site e-commerce local',
+    kind: 'collaboration',
     agency: null,
-    need: 'Besoin du client — à renseigner.',
-    work: 'Pages et administration — périmètre exact à renseigner.',
-    result: 'Fonctionnalités livrées — à renseigner.',
-    image: null,
-    url: null,
-    tint: '#f1efe8',
+    description: 'Boulangerie artisanale de Brive-la-Gaillarde, avec commande en ligne et retrait en boutique (click & collect).',
+    work: null,
+    result: null,
+    image: moulinDeBalme,
+    url: 'https://www.moulin-de-balme.fr/',
+    tint: '#f3ece4',
+  },
+  {
+    id: 'chateau-l-arc',
+    number: '04',
+    name: 'Golf Château l’Arc',
+    type: 'Site vitrine',
+    kind: 'collaboration',
+    agency: null,
+    description: 'Golf 18 trous en Provence : parcours, tarifs, compétitions, adhésion et réservation de départs.',
+    work: null,
+    result: null,
+    image: chateauLArc,
+    url: 'https://chateau-l-arc.vercel.app/',
+    tint: '#e6ece4',
   },
 ];

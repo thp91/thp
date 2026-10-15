@@ -1,16 +1,14 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { addLayoutAnimation, gsap, useGSAP } from '../../lib/gsap';
 import { SERVICES } from '../../data/services';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import ServiceCard from '../../components/ServiceCard/ServiceCard';
-import ServiceDialog from '../../components/ServiceDialog/ServiceDialog';
 import { createServicesGallery } from '../../animations/servicesAnimations';
 import './Services.css';
 
 /** Scène 05 — Les prestations, en galerie horizontale. */
 export default function Services() {
   const rootRef = useRef(null);
-  const [activeService, setActiveService] = useState(null);
 
   useGSAP(
     () => {
@@ -43,13 +41,11 @@ export default function Services() {
               <span className="services__ghost" aria-hidden="true">
                 {service.number}
               </span>
-              <ServiceCard service={service} onOpen={setActiveService} />
+              <ServiceCard service={service} />
             </li>
           ))}
         </ol>
       </div>
-
-      <ServiceDialog service={activeService} onSelect={setActiveService} onClose={() => setActiveService(null)} />
     </section>
   );
 }

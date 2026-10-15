@@ -3,13 +3,6 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-cursor);
-  width: auto;
-  height: auto;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  overflow: visible;
   pointer-events: none;
   mix-blend-mode: difference;
 }

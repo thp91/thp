@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import Lenis from 'lenis';
 import { gsap, ScrollTrigger } from '../lib/gsap';
 import useReducedMotion from './useReducedMotion';
+import useMediaQuery from './useMediaQuery';
 
 export const LenisContext = createContext(null);
 
@@ -11,10 +12,12 @@ export const LenisContext = createContext(null);
  */
 export function useLenisInstance() {
   const reducedMotion = useReducedMotion();
+  const finePointer = useMediaQuery('(pointer: fine)');
   const [lenis, setLenis] = useState(null);
 
   useEffect(() => {
-    if (reducedMotion) return undefined;
+    // Sur écran tactile, Lenis n'apporte rien (défilement natif déjà inertiel) : on l'évite
+    if (reducedMotion || !finePointer) return undefined;
 
     const instance = new Lenis({ lerp: 0.11, wheelMultiplier: 0.95, autoRaf: false });
     const update = (time) => instance.raf(time * 1000);
@@ -30,7 +33,7 @@ export function useLenisInstance() {
       instance.destroy();
       setLenis(null);
     };
-  }, [reducedMotion]);
+  }, [reducedMotion, finePointer]);
 
   return lenis;
 }

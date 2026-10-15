@@ -12,7 +12,7 @@ export function createServicesGallery(root) {
   const { horizontal, cleanup } = createHorizontalGallery(root, {
     block: 'services',
     media: '.service-card__media',
-    reveal: '.service-card__title, .service-card__text, .service-card__ideal, .service-card__toggle',
+    reveal: '.service-card__title, .service-card__text, .service-card__ideal',
   });
 
   const sketchTimeline = (slide) =>

@@ -10,7 +10,13 @@ import './ProjectCard.css';
  */
 export default function ProjectCard({ project }) {
   const rootRef = useRef(null);
-  const { name, number, type, kind, agency, need, work, result, image, url, placeholder } = project;
+  const { name, number, type, kind, agency, description, work, result, image, url, placeholder } = project;
+  // Seules les informations renseignées sont affichées
+  const details = [
+    ['Le site', description],
+    ['Ma contribution', work],
+    ['Livré', result],
+  ].filter(([, value]) => value);
 
   useGSAP(
     () => {
@@ -56,7 +62,7 @@ export default function ProjectCard({ project }) {
             <span className="project-card__dot" />
           </span>
           {image ? (
-            <img className="project-card__image" src={image} alt={`Capture du site ${name}`} loading="lazy" decoding="async" />
+            <img className="project-card__image" src={image} alt={`Page d’accueil du site ${name}`} width="800" height="500" loading="lazy" decoding="async" />
           ) : (
             <span className="project-card__artwork">
               <TileGrid className="project-card__tiles" />
@@ -77,19 +83,19 @@ export default function ProjectCard({ project }) {
           {agency && <span className="project-card__agency"> — {agency}</span>}
         </p>
         <dl className="project-card__details">
-          <div className="project-card__detail">
-            <dt className="label">Besoin</dt>
-            <dd>{need}</dd>
-          </div>
-          <div className="project-card__detail">
-            <dt className="label">Travail réalisé</dt>
-            <dd>{work}</dd>
-          </div>
-          <div className="project-card__detail">
-            <dt className="label">Livré</dt>
-            <dd>{result}</dd>
-          </div>
+          {details.map(([label, value]) => (
+            <div className="project-card__detail" key={label}>
+              <dt className="label">{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
         </dl>
+        {url && (
+          <a className="project-card__link" href={url} target="_blank" rel="noreferrer" data-cursor="link">
+            Voir le site <span aria-hidden="true">↗</span>
+            <span className="visually-hidden"> {name} (nouvel onglet)</span>
+          </a>
+        )}
       </div>
     </article>
   );

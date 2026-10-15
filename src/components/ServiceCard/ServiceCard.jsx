@@ -1,8 +1,8 @@
 import ServiceVisual from '../ServiceVisual/ServiceVisual';
 import './ServiceCard.css';
 
-/** Carte d'une prestation : esquisse de l'interface + fiche, avec accès aux exemples. */
-export default function ServiceCard({ service, onOpen }) {
+/** Carte d'une prestation : esquisse de l'interface + fiche. */
+export default function ServiceCard({ service }) {
   const { id, number, title, verb, description, idealFor, tone } = service;
 
   return (
@@ -22,20 +22,6 @@ export default function ServiceCard({ service, onOpen }) {
           <p className="service-card__ideal-label label">Idéal pour</p>
           <p className="service-card__ideal-text">{idealFor}</p>
         </div>
-        <button
-          className="service-card__toggle"
-          type="button"
-          aria-haspopup="dialog"
-          onClick={() => onOpen(service)}
-          data-cursor="link"
-        >
-          <span className="service-card__toggle-label">
-            Voir des exemples<span className="visually-hidden"> : {title}</span>
-          </span>
-          <span className="service-card__arrow" aria-hidden="true">
-            ↗
-          </span>
-        </button>
       </div>
     </article>
   );

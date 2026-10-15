@@ -150,3 +150,29 @@
     gap: 1.25rem;
   }
 }
+
+.project-card__link {
+  justify-self: start;
+  display: inline-flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-block: 0.4rem;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  transition: background-size var(--duration-medium) var(--ease-out);
+}
+
+.project-card__link:hover,
+.project-card__link:focus-visible {
+  background-size: 100% 1px;
+}
+
+.project-card__kind--collaboration {
+  background-color: var(--color-lavender);
+}
