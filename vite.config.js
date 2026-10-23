@@ -1,16 +1,28 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import contactHandler from './api/contact.js';
 
 /**
- * En développement, sert la fonction /api/contact (identique à celle déployée sur Vercel)
- * pour tester le formulaire avec `npm run dev`. Les variables viennent de .env.local.
+ * En développement, sert les fonctions de api/ (identiques à celles déployées sur Vercel)
+ * pour tester le formulaire, l'analytics et l'espace admin avec `npm run dev`.
+ * /api/contact → api/contact.js, /api/admin/stats → api/admin/stats.js…
+ * Les variables d'environnement viennent de .env.local.
+ * /api/prospect est exclu : il est relayé vers le serveur local de prospection (proxy ci-dessous).
  */
 const devApi = (env) => ({
   name: 'thp-dev-api',
   configureServer(server) {
     Object.assign(process.env, env);
-    server.middlewares.use('/api/contact', (req, res) => {
+    server.middlewares.use(async (req, res, next) => {
+      const url = new URL(req.url, 'http://localhost');
+      if (!url.pathname.startsWith('/api/') || url.pathname.startsWith('/api/prospect')) return next();
+
+      const name = url.pathname.slice('/api/'.length).replace(/\/$/, '');
+      const file = path.resolve('api', `${name}.js`);
+      if (name.split('/').some((part) => part.startsWith('_') || part === '..') || !fs.existsSync(file)) return next();
+
       let raw = '';
       req.on('data', (chunk) => {
         raw += chunk;
@@ -27,18 +39,37 @@ const devApi = (env) => ({
             res.end(JSON.stringify(payload));
             return shim;
           },
+          end(body) {
+            res.end(body);
+            return shim;
+          },
         };
         try {
-          await contactHandler({ method: req.method, body: raw }, shim);
+          // Rechargé à chaque appel : les modifications sont prises en compte sans redémarrer
+          const { default: handler } = await import(`${pathToFileURL(file).href}?t=${Date.now()}`);
+          await handler(
+            { method: req.method, headers: req.headers, body: raw, query: Object.fromEntries(url.searchParams), socket: req.socket },
+            shim,
+          );
         } catch (error) {
           console.error(error);
-          shim.status(500).json({ error: 'Erreur interne.' });
+          if (!res.writableEnded) shim.status(500).json({ error: 'Erreur interne.' });
         }
       });
     });
   },
 });
 
-export default defineConfig(({ mode }) => ({
-  plugins: [react(), devApi(loadEnv(mode, process.cwd(), ''))],
-}));
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  return {
+    plugins: [react(), devApi(env)],
+    server: {
+      // Le serveur de prospection ne tourne qu'en local (npm run dev le lance avec le site)
+      proxy: {
+        '/api/prospect': `http://127.0.0.1:${env.PROSPECT_PORT || 3001}`,
+      },
+      watch: { ignored: ['**/prospect/data/**'] },
+    },
+  };
+});

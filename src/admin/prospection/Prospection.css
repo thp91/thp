@@ -1,0 +1,440 @@
+.prospection {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.prospection__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.prospection__label {
+  color: var(--color-lavender-ink);
+}
+
+.prospection__title {
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 3.5rem);
+}
+
+.prospection__offline {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 44rem;
+}
+
+.prospection__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.prospection__stat {
+  min-width: 7.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-small);
+  background-color: var(--color-white);
+  box-shadow: inset 0 0 0 1px var(--color-line);
+}
+
+.prospection__stat dt {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.prospection__stat dd {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.prospection__warnings {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-small);
+  background-color: #ffe9e4;
+  color: var(--color-coral-ink);
+  font-size: 0.875rem;
+}
+
+.prospection__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.prospection__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 38px;
+  padding: 0.4rem 0.9rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.875rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-muted);
+}
+
+.prospection__tab:hover {
+  color: var(--color-ink);
+}
+
+.prospection__tab--active,
+.prospection__tab--active:hover {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+}
+
+.prospection__tab-count {
+  padding: 0.05rem 0.45rem;
+  border-radius: var(--radius-pill);
+  background-color: rgba(30, 30, 31, 0.08);
+  font-size: 0.6875rem;
+}
+
+.prospection__tab--active .prospection__tab-count {
+  background-color: rgba(250, 248, 243, 0.2);
+}
+
+.prospection__list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.prospection__empty {
+  padding: 3.5rem 1.25rem;
+  border: 1px dashed var(--color-line);
+  border-radius: var(--radius-medium);
+  text-align: center;
+  color: var(--color-muted);
+}
+
+.prospection__toast {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  z-index: 30;
+  max-width: 90vw;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radius-small);
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+  transform: translateX(-50%);
+}
+
+.prospection__toast--error {
+  background-color: var(--color-coral-ink);
+}
+
+/* ---------- Recherche ---------- */
+.search-panel__form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.85rem;
+}
+
+.search-panel__count {
+  flex: 0 0 6rem;
+  min-width: 6rem;
+}
+
+.search-panel__submit {
+  min-height: 44px;
+}
+
+.search-panel__status {
+  margin-top: 1.1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.875rem;
+}
+
+.search-panel__status-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.search-panel__dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--color-lavender-ink);
+}
+
+.search-panel__dot--running {
+  background-color: var(--color-coral);
+  animation: admin-pulse 1.2s infinite;
+}
+
+.search-panel__dot--error {
+  background-color: var(--color-coral-ink);
+}
+
+.search-panel__progress {
+  flex: 1;
+  min-width: 120px;
+  height: 6px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-line);
+}
+
+.search-panel__progress span {
+  display: block;
+  height: 100%;
+  background-color: var(--color-lavender-ink);
+  transition: width 0.4s var(--ease-out);
+}
+
+@keyframes admin-pulse {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* ---------- Carte prospect ---------- */
+.prospect-card {
+  border-radius: var(--radius-medium);
+  background-color: var(--color-white);
+  box-shadow: inset 0 0 0 1px var(--color-line);
+}
+
+.prospect-card--discarded {
+  opacity: 0.6;
+}
+
+.prospect-card__main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.25rem;
+}
+
+.prospect-card__company {
+  display: grid;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.prospect-card__name {
+  overflow: hidden;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prospect-card__meta {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+.prospect-card__email-button {
+  max-width: 100%;
+  overflow: hidden;
+  padding: 0.3rem 0.4rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: text;
+}
+
+.prospect-card__email-button:hover {
+  box-shadow: inset 0 0 0 1px var(--color-line);
+}
+
+.prospect-card__email-form {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.prospect-card__score {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.prospect-card__score-value {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--color-line);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.prospect-card__score-value--a_refaire {
+  background-color: var(--color-coral);
+}
+
+.prospect-card__score-value--a_verifier {
+  background-color: var(--color-lavender);
+}
+
+.prospect-card__verdict {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+}
+
+.prospect-card__stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.prospect-card__estimate {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-lavender-ink);
+}
+
+.prospect-card__error-link {
+  color: var(--color-coral-ink);
+}
+
+.prospect-card__working {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-coral-ink);
+}
+
+.prospect-card__working::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: admin-spin 0.8s linear infinite;
+}
+
+@keyframes admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.prospect-card__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.4rem;
+}
+
+.prospect-card__done {
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-lavender-ink);
+}
+
+.prospect-card__note {
+  font-size: 0.75rem;
+}
+
+.prospect-card__details {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1rem 1.25rem 1.25rem;
+  border-top: 1px solid var(--color-line);
+  font-size: 0.875rem;
+}
+
+.prospect-card__issues {
+  padding-left: 1.1rem;
+  list-style: disc;
+  color: var(--color-muted);
+}
+
+.prospect-card__summary {
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-small);
+  background-color: var(--color-cream);
+  white-space: pre-wrap;
+}
+
+@media (min-width: 1000px) {
+  .prospect-card__main {
+    grid-template-columns: minmax(200px, 1.5fr) minmax(170px, 1.2fr) 140px minmax(170px, 1fr) 170px;
+  }
+
+  .prospect-card__actions {
+    align-items: flex-end;
+  }
+}
+
+/* ---------- Modale ---------- */
+.admin-modal {
+  width: min(100% - 2rem, 46rem);
+  max-width: none;
+  max-height: calc(100svh - 2rem);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-large);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+}
+
+.admin-modal::backdrop {
+  background-color: rgba(20, 20, 23, 0.55);
+}
+
+.admin-modal__panel {
+  display: grid;
+  gap: 1rem;
+  padding: 1.75rem;
+}
+
+.admin-modal__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.admin-modal__title {
+  font-size: 1.75rem;
+}
+
+.admin-modal__close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px var(--color-line);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.admin-modal__body {
+  display: grid;
+  gap: 1rem;
+}
+
+.admin-modal__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.admin-modal__spacer {
+  flex: 1;
+}

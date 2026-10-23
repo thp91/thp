@@ -7,12 +7,12 @@ Maquette de référence : Figma `THbx4JH39gJnEoyiyvlRTd`, frame `7:3` (9 états 
 
 ```bash
 npm install
-npm run dev       # http://localhost:5173
+npm run dev       # site http://localhost:5173 + serveur local de prospection
 npm run build     # production dans dist/
 npm run preview   # sert la version de production
 ```
 
-Node 20+ recommandé.
+Node 22+ recommandé (le serveur de prospection s'exécute avec `tsx`).
 
 ## Dépendances
 
@@ -24,6 +24,7 @@ Node 20+ recommandé.
 | `lenis` | Défilement fluide, branché sur le ticker GSAP (une seule boucle d'animation) |
 | `@fontsource-variable/inter` | Police Inter auto-hébergée (aucun appel à Google Fonts) |
 | `vite`, `@vitejs/plugin-react` | Outillage |
+| `express`, `cheerio`, `tsx`, `concurrently` | Serveur local de prospection (développement uniquement, jamais déployé) |
 
 Pas de Tailwind, de CSS-in-JS ni de bibliothèque de composants : CSS classique en BEM, un fichier par composant.
 
@@ -64,6 +65,37 @@ src/
 | 09 Contact | Mots qui prennent leur place, logo qui réapparaît, ligne qui souligne le CTA, courbes du H qui remontent. | Identique |
 
 Transverse : curseur personnalisé (pointeur précis uniquement, « VOIR » sur les projets ayant un lien, contraste automatique), boutons magnétiques avec remplissage, soulignement dynamique de la navigation, en-tête qui se masque au scroll et s'adapte aux fonds sombres, indicateur `0X / 09` + barre de progression.
+
+## Espace administrateur (`/admin`)
+
+Protégé par mot de passe (cookie de session signé, HttpOnly, 7 jours ; 10 essais par quart d'heure et par IP). Jamais indexé (`noindex`, `robots.txt`).
+
+### Vue d'ensemble — analytics (en ligne)
+
+- Chaque chargement du site envoie une page vue à `api/track.js` (`src/lib/analytics.js`, ignoré en local et dans l'admin).
+- **Sans cookie ni donnée personnelle** : compteurs agrégés par jour dans Upstash Redis, visiteur unique = empreinte (IP + navigateur) hachée et salée, renouvelée chaque jour. Pas de bandeau de consentement nécessaire.
+- Provenances classées dans `api/_lib/sources.js` : **assistants IA** (ChatGPT, Perplexity, Claude, Gemini, Copilot, Mistral, DeepSeek), **moteurs** (Google, Bing, DuckDuckGo, Qwant, Ecosia, Yahoo), **réseaux sociaux** (Instagram, Facebook, LinkedIn, X, TikTok, Pinterest, YouTube, WhatsApp), accès direct, autres sites. `utm_source` prioritaire (ChatGPT ajoute `utm_source=chatgpt.com`). Robots exclus.
+- L'admin affiche visiteurs uniques, pages vues, pages par visiteur, part des visites venues d'une IA, courbe par jour (7 / 30 / 90 jours, comparaison à la période précédente), sources, pages et appareils.
+
+### Prospection (en local uniquement)
+
+L'outil `prospect/` (anciennement `~/Documents/prospect`) tourne sur votre Mac avec `npm run dev` : il utilise Claude Code (abonnement), le serveur MCP Figma et des fichiers locaux, impossible à héberger sur Vercel. En ligne, l'onglet indique « disponible en local ».
+
+- **Sans base de données** : `prospect/data/prospects.json` et `searches.json` (+ maquettes HTML et images), exclus de git.
+- **Envoi des mails via Resend** (`prospect/server/mailer.ts`) : nécessite un domaine vérifié dans Resend (`PROSPECT_FROM`), sinon Resend n'envoie qu'à l'adresse du compte.
+- Prompts personnalisables : `prospect/server/prompts/` (maquette, mail, développement). Sites clients développés dans `~/Documents/sites-clients` (`SITES_DIR`).
+
+### Variables d'environnement
+
+| Variable | Où | Rôle |
+| --- | --- | --- |
+| `ADMIN_PASSWORD` | Vercel + `.env.local` | Mot de passe de l'admin |
+| `ADMIN_SESSION_SECRET` | Vercel + `.env.local` | Secret de signature des sessions (et sel de l'analytics) |
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | Vercel (intégration Upstash) + `.env.local` | Base Redis de l'analytics |
+| `RESEND_API_KEY` | Vercel + `.env.local` | Formulaire de contact et mails de prospection |
+| `PROSPECT_FROM`, `SENDER_PHONE`, `FIGMA_PROJECT_ID`… | `.env.local` | Prospection (local) |
+
+Générer le secret : `openssl rand -base64 48`. Récupérer les variables Vercel en local : `vercel env pull .env.local`.
 
 ## À personnaliser
 
