@@ -1,0 +1,236 @@
+/*
+ * --progress (0 → 1) est piloté au défilement. Il déplace le curseur et
+ * le fait passer du rond lavande (design) au carré corail (code).
+ * Valeur par défaut 1 : sans animation, le parcours est affiché en entier.
+ */
+.education {
+  --progress: 1;
+  --mix: color-mix(in oklab, var(--color-coral) calc(var(--progress) * 100%), var(--color-lavender));
+  display: grid;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  margin-top: clamp(1rem, 3vw, 2.5rem);
+}
+
+.education__head {
+  display: grid;
+  gap: 1rem;
+}
+
+.education__label {
+  color: var(--color-lavender);
+}
+
+.education__title {
+  font-size: clamp(2.5rem, 1.4rem + 4.5vw, 5.5rem);
+}
+
+.education__title-design {
+  color: var(--color-lavender);
+}
+
+.education__title-code {
+  color: var(--color-coral);
+}
+
+/* ---------- Piste (mobile : verticale) ---------- */
+.education__track {
+  --axis: vertical;
+  position: relative;
+  padding: 2.5rem 0 2.5rem 3.25rem;
+}
+
+.education__end {
+  position: absolute;
+  left: 0;
+  font-size: var(--font-size-label);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+}
+
+.education__end--design {
+  top: 0;
+  color: var(--color-lavender);
+}
+
+.education__end--code {
+  bottom: 0;
+  color: var(--color-coral);
+}
+
+.education__line {
+  position: absolute;
+  top: 2.5rem;
+  bottom: 2.5rem;
+  left: 1rem;
+  width: 2px;
+  background-color: var(--color-line-dark);
+}
+
+.education__fill {
+  position: absolute;
+  inset: 0;
+  background-color: var(--mix);
+  transform: scaleY(var(--progress));
+  transform-origin: top center;
+}
+
+/* Le curseur : rond lavande au départ, carré corail à l'arrivée */
+.education__cursor {
+  position: absolute;
+  top: calc(2.5rem + var(--progress) * (100% - 5rem));
+  left: calc(1rem + 1px);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: max(6px, calc((1 - var(--progress)) * 50%));
+  background-color: var(--mix);
+  color: var(--color-ink);
+  transform: translate(-50%, -50%) rotate(calc(var(--progress) * 90deg));
+}
+
+.education__cursor-year {
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  transform: rotate(calc(var(--progress) * -90deg));
+}
+
+.education__list {
+  display: grid;
+  gap: 2.5rem;
+}
+
+.education__stop {
+  position: relative;
+  display: grid;
+  gap: 0.4rem;
+  justify-items: start;
+  opacity: 0.35;
+  transition: opacity var(--duration-medium) var(--ease-out);
+}
+
+.education__stop--active {
+  opacity: 1;
+}
+
+/* Repère sur la ligne : son arrondi va du rond (design) au carré (code) */
+.education__dot {
+  position: absolute;
+  top: 0.35rem;
+  left: calc(-2.25rem - 6px);
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--color-line-dark);
+  background-color: var(--color-night);
+  transition: background-color var(--duration-medium) var(--ease-out), border-color var(--duration-medium) var(--ease-out);
+}
+
+.education__stop:nth-child(1) .education__dot {
+  border-radius: 50%;
+}
+
+.education__stop:nth-child(2) .education__dot {
+  border-radius: 40%;
+}
+
+.education__stop:nth-child(3) .education__dot {
+  border-radius: 25%;
+}
+
+.education__stop:nth-child(4) .education__dot {
+  border-radius: 3px;
+}
+
+.education__stop--active .education__dot {
+  border-color: transparent;
+  background-color: var(--color-cream);
+}
+
+.education__period {
+  color: var(--color-muted-dark);
+}
+
+.education__school {
+  font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.education__diploma {
+  font-weight: var(--font-weight-bold);
+  line-height: 1.35;
+}
+
+.education__text {
+  max-width: 26rem;
+  color: var(--color-muted-dark);
+  font-size: var(--font-size-small);
+  line-height: 1.5;
+}
+
+.education__tag {
+  margin-top: 0.35rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 0 0 1px var(--color-line-dark);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--letter-spacing-label);
+  text-transform: uppercase;
+  color: var(--color-muted-dark);
+}
+
+.education__stop--active .education__tag {
+  color: var(--color-cream);
+}
+
+/* ---------- Desktop : piste horizontale ---------- */
+@media (min-width: 900px) {
+  .education__track {
+    --axis: horizontal;
+    padding: 5.5rem 0 0;
+  }
+
+  .education__end {
+    top: 0;
+    bottom: auto;
+  }
+
+  .education__end--code {
+    right: 0;
+    left: auto;
+  }
+
+  .education__line {
+    top: 5.5rem;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    width: auto;
+    height: 2px;
+  }
+
+  .education__fill {
+    transform: scaleX(var(--progress));
+    transform-origin: left center;
+  }
+
+  .education__cursor {
+    top: calc(5.5rem + 1px);
+    left: calc(var(--progress) * 100%);
+  }
+
+  .education__list {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+    padding-top: 2.5rem;
+  }
+
+  .education__dot {
+    top: calc(-2.5rem - 6px);
+    left: 0;
+  }
+}

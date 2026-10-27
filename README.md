@@ -58,7 +58,7 @@ src/
 | 03 Construction | Chaque forme du logo rejoint une case de la grille 5 × 5 et devient un bloc ; les 19 autres tuiles apparaissent. | Même transformation, grille 5 × 5 compacte |
 | 04 Le site prend vie | Les blocs se placent dans un vrai navigateur : barre du T → en-tête, H → bloc héros et carte, P → bouton d'action ; relais au pixel près avec les vrais composants. Puis le site se recompose pour le mobile avec les mêmes blocs : la barre noire s'élargit en coque, la page devient l'écran, bloc principal, bouton et cartes glissent et s'empilent ; les textes réapparaissent dans la mise en page mobile (cibles mesurées sur la maquette du téléphone). | Même scène, composition verticale |
 | 05 Prestations | Galerie horizontale épinglée (`animations/horizontalGallery.js`) : échelle des visuels, fiche qui glisse en place, numéro en parallaxe, teinte par offre. Chaque esquisse a son micro-scénario : la vitrine se compose, l'évolutif reçoit un nouvel article, l'e-commerce envoie un produit au panier. « Voir des exemples » ouvre le panneau détaillé. | Identique, format mobile |
-| 06 À propos | Axe vertical qui se dessine ; chaque agence arrive en contour puis se remplit en s'alignant. | Identique |
+| 06 À propos | Axe vertical qui se dessine ; chaque agence arrive en contour puis se remplit en s’alignant. Puis « Du design au code » : un curseur parcourt la formation (2016 → 2025), passe du rond lavande au carré corail et allume chaque école. | Même scène, axe vertical |
 | 07 Projets | Pile de fiches collantes (`position: sticky`, sans épinglage) : le visuel s'ouvre par un masque arrondi, la fiche glisse en place ; la fiche suivante recouvre la précédente, qui recule et s'assombrit ; teinte de fond par projet. | Identique |
 | 08 Processus + FAQ | L'illustration reste visible (sticky) et évolue au fil des étapes : échange (bulles), conception (maquette en pointillés + palette), développement (blocs qui se remplissent, `</>`), mise en ligne (navigateur, « En ligne », téléphone). Le fil se remplit et chaque étape s'active. FAQ claire en accordéon, sur deux colonnes. | Identique, illustration compacte en haut |
 | 09 Contact | Mots qui prennent leur place, logo qui réapparaît, ligne qui souligne le CTA, courbes du H qui remontent. | Identique |
@@ -70,6 +70,7 @@ Transverse : curseur personnalisé (pointeur précis uniquement, « VOIR » sur 
 - **Adresse e-mail** : `src/data/site.js` → `CONTACT.email` (thp.development.pro@gmail.com).
 - **Projets** : `src/data/projects.js` — Nutrimuscle, Bon Parfumeur Paris, Le Moulin de Balme, Golf Château l'Arc, avec captures de page d'accueil (800 × 500). À compléter : `work` (contribution exacte), `agency` et `kind` ; les champs vides ne s'affichent pas. Remplacer les captures par des versions haute définition (1600 × 1000) si possible.
 - **Agences** : `src/data/experience.js` — `url` optionnelle pour chaque agence.
+- **Formation** : `src/data/education.js`.
 - **FAQ** : `src/data/faq.js` — réponses volontairement prudentes (aucun tarif ni délai), à ajuster.
 - **URL du site** : `index.html` (canonical, Open Graph, JSON-LD).
 - **Formulaire de contact** : envoi direct via Resend, par la fonction serveur `api/contact.js` (Vercel). La clé API reste côté serveur.

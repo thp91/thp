@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { addLayoutAnimation, gsap, useGSAP } from '../../lib/gsap';
 import { EXPERIENCES } from '../../data/experience';
 import Commitments from './Commitments';
+import Education from './Education';
 import SectionHeading from '../../components/SectionHeading/SectionHeading';
 import { createAboutTimeline } from '../../animations/aboutAnimations';
 import './About.css';
@@ -87,6 +88,8 @@ export default function About() {
             ))}
           </ol>
         </div>
+
+        <Education />
 
         <Commitments />
       </div>

@@ -1,5 +1,6 @@
 import { gsap } from '../lib/gsap';
 import { createCommitmentsAnimations } from './commitmentsAnimations';
+import { createEducationAnimations } from './educationAnimations';
 
 /**
  * Scène 06 : une ligne verticale se dessine ; chaque agence vient s'aligner sur l'axe,
@@ -44,7 +45,11 @@ export function createAboutTimeline(root) {
     if (role) tl.from(role, { y: 12, autoAlpha: 0, duration: 0.4 }, at + 0.5);
   });
 
+  const cleanupEducation = createEducationAnimations(root);
   const cleanupCommitments = createCommitmentsAnimations(root);
 
-  return cleanupCommitments;
+  return () => {
+    cleanupEducation();
+    cleanupCommitments();
+  };
 }
