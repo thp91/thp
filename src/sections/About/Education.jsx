@@ -1,9 +1,11 @@
 import { EDUCATION } from '../../data/education';
+import EducationScene from './EducationScene';
 import './Education.css';
 
 /**
  * Formation : une ligne du DESIGN au CODE. Au défilement, un curseur la parcourt
- * (année affichée), passe du rond lavande au carré corail, et allume chaque école.
+ * (année affichée), passe du rond lavande au carré corail ; à son passage, chaque
+ * école s'allume et son bâtiment illustré se construit.
  * L'animation est dans aboutAnimations.js ; sans animation, tout est visible.
  */
 export default function Education() {
@@ -40,6 +42,7 @@ export default function Education() {
           {EDUCATION.map((item) => (
             <li key={item.id} className="education__stop education__stop--active" data-year={item.year}>
               <span className="education__dot" aria-hidden="true" />
+              <EducationScene id={item.id} />
               <p className="education__period label">{item.period}</p>
               <h4 className="education__school">{item.school}</h4>
               <p className="education__diploma">{item.diploma}</p>

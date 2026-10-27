@@ -6,7 +6,7 @@ import { createEducationAnimations } from './educationAnimations';
  * Scène 06 : une ligne verticale se dessine ; chaque agence vient s'aligner sur l'axe,
  * d'abord en contour, puis en plein lorsqu'elle est atteinte.
  */
-export function createAboutTimeline(root) {
+export function createAboutTimeline(root, { wide = false } = {}) {
   const q = gsap.utils.selector(root);
 
   gsap.from(q('.section-heading__title .line-mask__inner'), {
@@ -45,7 +45,7 @@ export function createAboutTimeline(root) {
     if (role) tl.from(role, { y: 12, autoAlpha: 0, duration: 0.4 }, at + 0.5);
   });
 
-  const cleanupEducation = createEducationAnimations(root);
+  const cleanupEducation = createEducationAnimations(root, { wide });
   const cleanupCommitments = createCommitmentsAnimations(root);
 
   return () => {

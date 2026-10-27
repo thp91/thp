@@ -14,8 +14,10 @@ export default function About() {
   useGSAP(
     () => {
       const mm = gsap.matchMedia();
-      const animate = () => createAboutTimeline(rootRef.current);
-      addLayoutAnimation(mm, { wide: animate, narrow: animate });
+      addLayoutAnimation(mm, {
+        wide: () => createAboutTimeline(rootRef.current, { wide: true }),
+        narrow: () => createAboutTimeline(rootRef.current),
+      });
 
       return () => mm.revert();
     },

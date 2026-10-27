@@ -234,3 +234,125 @@
     left: 0;
   }
 }
+
+/* ---------- Écoles illustrées (EducationScene) ---------- */
+.education__stop {
+  --accent: var(--color-lavender);
+}
+
+.education__stop:nth-child(2) {
+  --accent: color-mix(in oklab, var(--color-coral) 30%, var(--color-lavender));
+}
+
+.education__stop:nth-child(3) {
+  --accent: color-mix(in oklab, var(--color-coral) 65%, var(--color-lavender));
+}
+
+.education__stop:nth-child(4) {
+  --accent: var(--color-coral);
+}
+
+.education__scene {
+  display: block;
+  width: 100%;
+  max-width: 22rem;
+  height: auto;
+  margin-bottom: 0.75rem;
+  border-radius: 14px;
+  background-color: color-mix(in oklab, var(--accent) 7%, var(--color-night));
+  box-shadow: inset 0 0 0 1px var(--color-line-dark);
+  overflow: visible;
+}
+
+.school__line {
+  fill: none;
+  stroke: var(--color-cream);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.school__ground,
+.school__bridge {
+  fill: none;
+  stroke: var(--color-muted-dark);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.school__bridge {
+  stroke-dasharray: 3 4;
+}
+
+.school__accent-line {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.school__fill {
+  fill: var(--accent);
+}
+
+.school__soft {
+  fill: color-mix(in oklab, var(--accent) 22%, transparent);
+}
+
+.school__soft-solid {
+  fill: color-mix(in oklab, var(--accent) 45%, var(--color-night));
+}
+
+.school__dark {
+  fill: var(--color-night);
+}
+
+.school__cream {
+  fill: var(--color-cream);
+}
+
+.school__paint {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+}
+
+.school__paint--lavender,
+.school__swatch--lavender {
+  stroke: var(--color-lavender);
+  fill: var(--color-lavender);
+}
+
+.school__paint--coral,
+.school__swatch--coral {
+  stroke: var(--color-coral);
+  fill: var(--color-coral);
+}
+
+.school__paint--cream,
+.school__swatch--cream {
+  stroke: var(--color-cream);
+  fill: var(--color-cream);
+}
+
+.school__paint {
+  fill: none;
+}
+
+.school__swatch {
+  stroke: none;
+}
+
+.school__text {
+  fill: var(--color-muted-dark);
+  font-size: 8px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.school__brace {
+  fill: var(--accent);
+  font-size: 40px;
+  font-weight: var(--font-weight-bold);
+}
